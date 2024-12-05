@@ -31,39 +31,7 @@ export default {
     data() {
         return {
             imageSrc: '/pictures/level2/L2M2M1.png', // 替换为您的图片路径
-            hotspots: [
-                {
-                    id: '1',
-                    shape: 'poly',
-                    coords: '71,831,388,831,397,827,403,822,407,813,409,806,408,677,408,670,406,667,402,657,389,656,388,650,71,651,61,651,52,658,46,668,46,676,46,806,51,821,62,829',
-                    href: '/next-level/1'
-                },
-                // 更多热点区域...
-            ],
         };
-    },
-    mounted() {
-        // 使用 mapster 插件，注意不需要 resize: true
-        $('#mapAll').mapster({
-            fillColor: '1AC4F9',
-            strokeColor: "FFFFFF",
-            strokeWidth: 3,
-            fillOpacity: 0.6,
-            singleSelect: true,
-        });
-    },
-    methods: {
-        navigateTo(url) {
-            this.$router.push(url); // 使用Vue Router进行导航
-        },
-        highlightHotspot(id) {
-            const $map = $('#mapAll');
-            $map.mapster('highlight', true, id); // 高亮显示热点
-        },
-        unhighlightHotspot(id) {
-            const $map = $('#mapAll');
-            $map.mapster('set', false, id); // 取消高亮显示
-        }
     },
 };
 </script>
