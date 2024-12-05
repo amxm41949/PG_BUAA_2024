@@ -3,9 +3,7 @@
         <el-container>
             <el-header>
                 <div style="margin-bottom: 20px;"></div> <!-- 增加底部空白 -->
-
-                <span class="text-large font-600 mr-3" style="font-size: 30px;"> Title </span>
-
+                <span class="text-large font-600 mr-3" style="font-size: 30px;">Title</span>
                 <div style="margin-top: 20px;"></div> <!-- 增加顶部空白 -->
             </el-header>
             <el-main>
@@ -17,6 +15,19 @@
                             :coords="hotspot.coords" :href="hotspot.href" @click.prevent="navigateTo(hotspot.href)"
                             @mouseover="highlightHotspot(hotspot.id)" @mouseout="unhighlightHotspot(hotspot.id)" />
                     </map>
+                </div>
+                <div style="margin-top: 30px;"></div> <!-- 增加顶部空白 -->
+                <el-steps style="max-width: 600px" :active="active" finish-status="success" align-center>
+                    <el-step title="Step 1" />
+                    <el-step title="Step 2" />
+                    <el-step title="Step 3" />
+                </el-steps>
+                <el-button style="margin-top: 12px" @click="next">Next step</el-button>
+                <!-- 圆角框，仅在 Step 1 完成时显示 -->
+                <div v-if="active >= 1" class="rounded-box">
+                    <div class="box-content">
+                        <p>Some Text</p>
+                    </div>
                 </div>
             </el-main>
         </el-container>
@@ -30,8 +41,10 @@ import 'imagemapster';
 export default {
     data() {
         return {
+            active: 0,
             imageSrc: '/pictures/level0/L0.png', // 替换为您的图片路径
             hotspots: [
+                // ...您的热点数据
                 {
                     id: '1',
                     shape: 'poly',
@@ -50,21 +63,13 @@ export default {
                     coords: '946,831,1263,831,1272,827,1278,822,1282,813,1284,806,1283,677,1283,670,1281,667,1277,657,1264,656,1263,650,946,651,936,651,927,658,921,668,921,676,921,806,926,821,937,829',
                     href: '/next-level/2'
                 },
-                // 更多热点区域...
             ],
         };
     },
-    mounted() {
-        // 使用 mapster 插件，注意不需要 resize: true
-        $('#mapAll').mapster({
-            fillColor: '1AC4F9',
-            strokeColor: "FFFFFF",
-            strokeWidth: 3,
-            fillOpacity: 0.6,
-            singleSelect: true,
-        });
-    },
     methods: {
+        next() {
+            if (this.active++ > 2) this.active = 0;
+        },
         navigateTo(url) {
             this.$router.push(url); // 使用Vue Router进行导航
         },
@@ -75,8 +80,17 @@ export default {
         unhighlightHotspot(id) {
             const $map = $('#mapAll');
             $map.mapster('set', false, id); // 取消高亮显示
-        }
+        },
     },
+    mounted() {
+        $('#mapAll').mapster({
+            fillColor: '1AC4F9',
+            strokeColor: "FFFFFF",
+            strokeWidth: 3,
+            fillOpacity: 0.6,
+            singleSelect: true,
+        });
+    }
 };
 </script>
 
@@ -102,5 +116,31 @@ img {
     /* 高度始终填满容器 */
     object-fit: contain;
     /* 保持图片比例，同时确保不会超出容器 */
+}
+
+.rounded-box {
+    position: absolute;
+    top: 20%;
+    /* 顶部偏移量 */
+    left: 30%;
+    /* 左边偏移量 */
+    width: 200px;
+    /* 圆角框宽度 */
+    height: 100px;
+    /* 圆角框高度 */
+    background-color: rgba(255, 255, 255, 0.5);
+    /* 半透明白色背景 */
+    border: 2px solid black;
+    /* 黑色边框 */
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.box-content p {
+    margin: 0;
+    font-size: 16px;
+    color: black;
 }
 </style>
