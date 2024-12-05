@@ -4,7 +4,7 @@
             <el-header>
                 <div style="margin-bottom: 20px;"></div> <!-- 增加底部空白 -->
 
-                <span class="text-large font-600 mr-3" style="font-size: 30px;"> Title </span>
+                <span class="text-large font-600 mr-3" style="font-size: 30px;"> L1M2 </span>
 
                 <div style="margin-top: 20px;"></div> <!-- 增加顶部空白 -->
             </el-header>
@@ -30,13 +30,13 @@ import 'imagemapster';
 export default {
     data() {
         return {
-            imageSrc: '/pictures/level0/L0.png', // 替换为您的图片路径
+            imageSrc: '/pictures/level1/L1M2.png', // 替换为您的图片路径
             hotspots: [
                 {
                     id: '1',
                     shape: 'poly',
                     coords: '71,831,388,831,397,827,403,822,407,813,409,806,408,677,408,670,406,667,402,657,389,656,388,650,71,651,61,651,52,658,46,668,46,676,46,806,51,821,62,829',
-                    href: '/l1m2'
+                    href: '/next-level/1'
                 },
                 {
                     id: '2',
