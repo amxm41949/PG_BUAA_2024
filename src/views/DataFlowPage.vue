@@ -4,7 +4,7 @@
             <el-header>
                 <div style="margin-bottom: 20px;"></div> <!-- 增加底部空白 -->
                 <div class="header-content">
-                    <span class="text-large font-600 mr-3 title">L0</span>
+                    <span class="text-large font-600 mr-3 title">L0(系统总体结构)</span>
                 </div>
                 <div style="margin-top: 20px;"></div> <!-- 增加顶部空白 -->
             </el-header>
