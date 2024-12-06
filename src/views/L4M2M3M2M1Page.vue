@@ -5,7 +5,7 @@
                 <div style="margin-bottom: 20px;"></div> <!-- 增加底部空白 -->
                 <div class="header-content">
                     <el-button type="info" @click="goBack" class="back-button">Back</el-button>
-                    <span class="text-large font-600 mr-3 title">L3M2M3M3M1</span>
+                    <span class="text-large font-600 mr-3 title">L4M2M3M3M1</span>
                 </div>
                 <div style="margin-top: 20px;"></div> <!-- 增加顶部空白 -->
             </el-header>
@@ -26,6 +26,7 @@
                     <el-step title="Step 3" />
                 </el-steps>
                 <el-button class="next-button" style="margin-top: 12px" @click="next">Next step</el-button>
+                <div v-html="compiledMarkdown" class="markdown-body"></div>
                 <!-- 圆角框，仅在 Step 1 完成时显示 -->
                 <div v-if="active >= 1" class="rounded-box">
                     <div class="box-content">
@@ -40,6 +41,8 @@
 <script>
 import $ from 'jquery';
 import 'imagemapster';
+import MarkdownIt from 'markdown-it';
+
 
 export default {
     data() {
@@ -49,7 +52,30 @@ export default {
             hotspots: [
                 // ...您的热点数据
             ],
+            markdownText: `# Header 1\n\nThis is a markdown paragraph. **Bold text**, *italic text*, and [links].    
+            - List item 1  
+            - List item 2  
+            \`\`\`
+            code here
+            \`\`\`
+            code end
+            `,
+            // Markdown解析器实例
+            md: new MarkdownIt({
+                html: false,        // 禁用 HTML 解析
+                xhtmlOut: false,    // 禁用 XHTML 输出
+                breaks: false,      // 不自动将换行符转换为 <br> 标签
+                linkify: true,      // 自动链接 URL
+                typographer: true,  // 启用排版功能（如引号、破折号等自动转换）
+                validate: true      // 启用严格模式
+            })
         };
+    },
+    computed: {
+        // 计算属性用于解析Markdown
+        compiledMarkdown() {
+            return this.md.render(this.markdownText);
+        }
     },
     methods: {
         next() {
