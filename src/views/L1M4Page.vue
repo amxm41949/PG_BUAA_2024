@@ -12,11 +12,11 @@
       <el-main>
         <div class="image-container">
           <img id="mapAll" ref="mapAll" :src="imageSrc" usemap="#image-map"
-               style="width: 100%; height: 100%; object-fit: contain;" />
+            style="width: 100%; height: 100%; object-fit: contain;" />
           <map name="image-map" id="image-map">
-            <area v-for="hotspot in hotspots" :key="hotspot.id" :shape="hotspot.shape"
-                  :coords="hotspot.coords" :href="hotspot.href" @click.prevent="navigateTo(hotspot.href)"
-                  @mouseover="highlightHotspot(hotspot.id)" @mouseout="unhighlightHotspot(hotspot.id)" />
+            <area v-for="hotspot in hotspots" :key="hotspot.id" :shape="hotspot.shape" :coords="hotspot.coords"
+              :href="hotspot.href" @click.prevent="navigateTo(hotspot.href)" @mouseover="highlightHotspot(hotspot.id)"
+              @mouseout="unhighlightHotspot(hotspot.id)" />
           </map>
         </div>
         <div style="margin-top: 30px;"></div> <!-- 增加顶部空白 -->
@@ -44,28 +44,36 @@ import 'imagemapster';
 export default {
   data() {
     return {
+      active: 0,
       imageSrc: '/pictures/level1/L1M4.png', // 替换为您的图片路径
       hotspots: [
         {
           id: '1',
           shape: 'poly',
           coords:
-              '520,116, 760,116, 770,116, 780,126, 780,236, 770,246, 520,246, 510,236, 510,126',
+            '520,116, 760,116, 770,116, 780,126, 780,236, 770,246, 520,246, 510,236, 510,126',
           href: '/l2m4m1'
         },
         {
           id: '3',
           shape: 'poly',
           coords:
-              '520,361, 760,361, 770,361, 780,371, 780,481, 770,491, 520,491, 510,481, 510,371',
+            '520,361, 760,361, 770,361, 780,371, 780,481, 770,491, 520,491, 510,481, 510,371',
           href: '/l2m4m2'
         },
         {
           id: '2',
           shape: 'poly',
           coords:
-              '980,116, 1220,116, 1230,116, 1235,126, 1235,236, 1230,246, 980,246, 970,236, 970,126',
+            '980,116, 1220,116, 1230,116, 1235,126, 1235,236, 1230,246, 980,246, 970,236, 970,126',
           href: '/l2m4m3'
+        },
+        {
+          id: '4',
+          shape: 'poly',
+          coords:
+            '10,133,12,208,15,217,20,218,24,223,199,223,205,219,215,211,213,132,208,128,205,123,21,123,15,124',
+          href: '/l2m2m4'
         },
         // 更多热点区域...
       ],

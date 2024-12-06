@@ -12,11 +12,11 @@
       <el-main>
         <div class="image-container">
           <img id="mapAll" ref="mapAll" :src="imageSrc" usemap="#image-map"
-               style="width: 100%; height: 100%; object-fit: contain;" />
+            style="width: 100%; height: 100%; object-fit: contain;" />
           <map name="image-map" id="image-map">
-            <area v-for="hotspot in hotspots" :key="hotspot.id" :shape="hotspot.shape"
-                  :coords="hotspot.coords" :href="hotspot.href" @click.prevent="navigateTo(hotspot.href)"
-                  @mouseover="highlightHotspot(hotspot.id)" @mouseout="unhighlightHotspot(hotspot.id)" />
+            <area v-for="hotspot in hotspots" :key="hotspot.id" :shape="hotspot.shape" :coords="hotspot.coords"
+              :href="hotspot.href" @click.prevent="navigateTo(hotspot.href)" @mouseover="highlightHotspot(hotspot.id)"
+              @mouseout="unhighlightHotspot(hotspot.id)" />
           </map>
         </div>
         <div style="margin-top: 30px;"></div> <!-- 增加顶部空白 -->
@@ -44,20 +44,21 @@ import 'imagemapster';
 export default {
   data() {
     return {
+      active: 0,
       imageSrc: '/pictures/level2/L2M4M1.png', // 替换为您的图片路径
       hotspots: [
         {
           id: '1',
           shape: 'poly',
           coords:
-              '408,15, 594,15, 600,18, 606,18, 606,115 ,601,116, 590,120, 410,120, 400,118, 396,111, 393,106, 393,26, 400,18',
+            '408,15, 594,15, 600,18, 606,18, 606,115 ,601,116, 590,120, 410,120, 400,118, 396,111, 393,106, 393,26, 400,18',
           href: '/next-level/1'
         },
         {
           id: '2',
           shape: 'poly',
           coords:
-              '408,715, 594,715, 600,718, 606,718, 606,815 ,601,816, 590,820, 410,820, 400,818, 396,811, 393,806, 393,726, 400,718',
+            '408,715, 594,715, 600,718, 606,718, 606,815 ,601,816, 590,820, 410,820, 400,818, 396,811, 393,806, 393,726, 400,718',
           href: '/next-level/2'
         },
         // {

@@ -68,6 +68,9 @@ export default {
         };
     },
     methods: {
+        next() {
+            if (this.active++ > 2) this.active = 0;
+        },
         navigateTo(url) {
             this.$router.push(url); // 使用Vue Router进行导航
         },

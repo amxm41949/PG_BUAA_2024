@@ -44,6 +44,7 @@ import 'imagemapster';
 export default {
     data() {
         return {
+            active: 0,
             imageSrc: '/pictures/level2/L2M2M4.png', // 替换为您的图片路径
             hotspots: [
                 {
@@ -56,13 +57,13 @@ export default {
                     id: '2',
                     shape: 'poly',
                     coords: '1094,346,1266,345,1275,341,1278,338,1278,329,1277,257,1272,249,1271,247,1265,245,1089,245,1082,249,1080,253,1077,258,1077,330,1078,338,1084,342',
-                    href: '/next-level/3'
+                    href: '/next-level/3' //storage
                 },
                 {
                     id: '3',
                     shape: 'poly',
                     coords: '1093,119,1265,118,1274,114,1277,111,1277,102,1276,30,1271,22,1270,20,1264,18,1088,18,1081,22,1079,26,1076,31,1076,103,1077,111,1083,115',
-                    href: '/next-level/4'
+                    href: '/l1m4' //thing
                 },
                 // 更多热点区域...
             ],

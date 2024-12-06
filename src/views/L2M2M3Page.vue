@@ -44,6 +44,7 @@ import 'imagemapster';
 export default {
     data() {
         return {
+            active: 0,
             imageSrc: '/pictures/level2/L2M2M3.png', // 替换为您的图片路径
             hotspots: [
                 {

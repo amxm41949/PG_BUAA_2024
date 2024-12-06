@@ -12,11 +12,11 @@
       <el-main>
         <div class="image-container">
           <img id="mapAll" ref="mapAll" :src="imageSrc" usemap="#image-map"
-               style="width: 100%; height: 100%; object-fit: contain;" />
+            style="width: 100%; height: 100%; object-fit: contain;" />
           <map name="image-map" id="image-map">
-            <area v-for="hotspot in hotspots" :key="hotspot.id" :shape="hotspot.shape"
-                  :coords="hotspot.coords" :href="hotspot.href" @click.prevent="navigateTo(hotspot.href)"
-                  @mouseover="highlightHotspot(hotspot.id)" @mouseout="unhighlightHotspot(hotspot.id)" />
+            <area v-for="hotspot in hotspots" :key="hotspot.id" :shape="hotspot.shape" :coords="hotspot.coords"
+              :href="hotspot.href" @click.prevent="navigateTo(hotspot.href)" @mouseover="highlightHotspot(hotspot.id)"
+              @mouseout="unhighlightHotspot(hotspot.id)" />
           </map>
         </div>
         <div style="margin-top: 30px;"></div> <!-- 增加顶部空白 -->
@@ -44,6 +44,7 @@ import 'imagemapster';
 export default {
   data() {
     return {
+      active: 0,
       imageSrc: '/pictures/level2/L2M4M2.png', // 替换为您的图片路径
       hotspots: [
         {
