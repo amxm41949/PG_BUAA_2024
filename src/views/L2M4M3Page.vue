@@ -12,11 +12,11 @@
       <el-main>
         <div class="image-container">
           <img id="mapAll" ref="mapAll" :src="imageSrc" usemap="#image-map"
-            style="width: 100%; height: 100%; object-fit: contain;" />
+               style="width: 100%; height: 100%; object-fit: contain;" />
           <map name="image-map" id="image-map">
-            <area v-for="hotspot in hotspots" :key="hotspot.id" :shape="hotspot.shape" :coords="hotspot.coords"
-              :href="hotspot.href" @click.prevent="navigateTo(hotspot.href)" @mouseover="highlightHotspot(hotspot.id)"
-              @mouseout="unhighlightHotspot(hotspot.id)" />
+            <area v-for="hotspot in hotspots" :key="hotspot.id" :shape="hotspot.shape"
+                  :coords="hotspot.coords" :href="hotspot.href" @click.prevent="navigateTo(hotspot.href)"
+                  @mouseover="highlightHotspot(hotspot.id)" @mouseout="unhighlightHotspot(hotspot.id)" />
           </map>
         </div>
         <div style="margin-top: 30px;"></div> <!-- 增加顶部空白 -->
@@ -26,6 +26,7 @@
           <el-step title="Step 3" />
         </el-steps>
         <el-button class="next-button" style="margin-top: 12px" @click="next">Next step</el-button>
+        <div v-html="compiledMarkdown" class="markdown-body"></div>
         <!-- 圆角框，仅在 Step 1 完成时显示 -->
         <div v-if="active >= 1" class="rounded-box">
           <div class="box-content">
@@ -40,6 +41,7 @@
 <script>
 import $ from 'jquery';
 import 'imagemapster';
+import MarkdownIt from 'markdown-it';
 
 export default {
   data() {
@@ -79,6 +81,18 @@ export default {
         },//存储模块
         // 更多热点区域...
       ],
+      markdownText: `**总览**
+
+> 接受各个模块的获取、释放锁请求。
+            `,
+      md: new MarkdownIt({
+        html: false,        // 禁用 HTML 解析
+        xhtmlOut: false,    // 禁用 XHTML 输出
+        breaks: false,      // 不自动将换行符转换为 <br> 标签
+        linkify: true,      // 自动链接 URL
+        typographer: true,  // 启用排版功能（如引号、破折号等自动转换）
+        validate: true      // 启用严格模式
+      })
     };
   },
   mounted() {
@@ -90,6 +104,12 @@ export default {
       fillOpacity: 0.6,
       singleSelect: true,
     });
+  },
+  computed: {
+    // 计算属性用于解析Markdown
+    compiledMarkdown() {
+      return this.md.render(this.markdownText);
+    }
   },
   methods: {
     next() {
