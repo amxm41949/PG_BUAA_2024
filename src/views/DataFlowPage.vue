@@ -25,6 +25,7 @@
                     <el-step title="Step 3" />
                 </el-steps>
                 <el-button class="next-button" style="margin-top: 12px" @click="next">Next step</el-button>
+                <div v-html="compiledMarkdown" class="markdown-body"></div>
                 <!-- 圆角框，仅在 Step 1 完成时显示 -->
                 <div v-if="active >= 1" class="rounded-box">
                     <div class="box-content">
@@ -38,6 +39,7 @@
 <script>
 import $ from 'jquery';
 import 'imagemapster';
+import MarkdownIt from 'markdown-it';
 
 export default {
     data() {
@@ -65,7 +67,51 @@ export default {
                     href: '/next-level/2'
                 },
             ],
+            markdownText: `**流程图**
+
+![img](https://xcnxiwfp39pl.feishu.cn/space/api/box/stream/download/asynccode/?code=NDVmYjQ0YmI4MzRiNzQzMGJjOWQ5OTBiZjkzOWRjODRfZnJ0N1VxajZLb1dRQXJvUGF3aTQycVBsWGR6RFFhclZfVG9rZW46Q1V2cGJETkkxb3lUM0N4N1J0OGNjSXZwblBnXzE3MzM0NjUyMDY6MTczMzQ2ODgwNl9WNA)
+
+**总览**
+
+> PostgreSQL 数据库是一种几乎可以运行在各种平台上的免费开源对象关系数据库，它是一种以关系型数据库和 SQL 为基础，扩展了抽象数据类型，从而具备面向对象特性的数据库。PostgreSQL 数据库主要由连接模块、查询模块、存储模块、事务模块四部分组成。
+
+**模块信息**
+
+- 连接模块
+  - > 接受外部操作对系统的请求，对操作请求进行预处理和分发，起系统逻辑控制作用。
+- 查询模块
+  - > 完成操作请求在数据库中的分析处理和转化工作，最终实现物理存储介质中数据的操作。
+- 事务模块：
+  - > 负责存储和管理物理数据，提供对编译查询系统的支持。
+- 存储模块：
+  - > 完成对操作请求处理的事务一致性支持，提供对并发访问数据的一致性支持。
+
+**数据流信息**
+
+- 日志
+  - > 写日志信息，日志恢复请求，如ereport。
+- 锁请求
+  - > 获取、释放锁请求。
+- 事务指令
+  - > 调用事务模块相关处理函数，如BeginTransactionBlock、RequireTransactionBlock、RollbackToSavepoint等。
+- 内存指令
+  - > 调用的内存模块相关处理函数，如AlterTable、DefineIndex、RemoveRelations等。
+            `,
+            md: new MarkdownIt({
+                html: false,        // 禁用 HTML 解析
+                xhtmlOut: false,    // 禁用 XHTML 输出
+                breaks: false,      // 不自动将换行符转换为 <br> 标签
+                linkify: true,      // 自动链接 URL
+                typographer: true,  // 启用排版功能（如引号、破折号等自动转换）
+                validate: true      // 启用严格模式
+            })
         };
+    },
+    computed: {
+        // 计算属性用于解析Markdown
+        compiledMarkdown() {
+            return this.md.render(this.markdownText);
+        }
     },
     methods: {
         next() {

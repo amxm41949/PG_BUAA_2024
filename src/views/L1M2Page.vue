@@ -26,6 +26,7 @@
                     <el-step title="Step 3" />
                 </el-steps>
                 <el-button class="next-button" style="margin-top: 12px" @click="next">Next step</el-button>
+                <div v-html="compiledMarkdown" class="markdown-body"></div>
                 <!-- 圆角框，仅在 Step 1 完成时显示 -->
                 <div v-if="active >= 1" class="rounded-box">
                     <div class="box-content">
@@ -40,6 +41,7 @@
 <script>
 import $ from 'jquery';
 import 'imagemapster';
+import MarkdownIt from 'markdown-it';
 
 export default {
     data() {
@@ -78,6 +80,42 @@ export default {
                 },//存储模块
                 // 更多热点区域...
             ],
+            markdownText: `**总览**
+
+> 完成操作请求在数据库中的分析处理和转化工作，最终实现物理存储介质中数据的操作。
+
+**模块信息**
+
+- 查询分析模块
+
+> 进行词法分析、语法分析和语义分析生成查询树，并且判断sql语句类型。 
+
+- 查询重写模块
+
+> 根据已定义的规则对查询树进行重写
+
+- 查询规划模块
+
+> 根据查询树生成查询计划
+
+- 查询执行模块
+
+> 按照查询计划的安排，调用存储、索引、并发等功能模块，按照各个计划节点的实现算法来执行数据的读取和修改。
+
+**数据流信息**
+
+- 存储指令
+
+> 查询执行模块执行后向存储模块发出的指令
+            `,
+            md: new MarkdownIt({
+                html: false,        // 禁用 HTML 解析
+                xhtmlOut: false,    // 禁用 XHTML 输出
+                breaks: false,      // 不自动将换行符转换为 <br> 标签
+                linkify: true,      // 自动链接 URL
+                typographer: true,  // 启用排版功能（如引号、破折号等自动转换）
+                validate: true      // 启用严格模式
+            })
         };
     },
     mounted() {
@@ -89,6 +127,12 @@ export default {
             fillOpacity: 0.6,
             singleSelect: true,
         });
+    },
+    computed: {
+        // 计算属性用于解析Markdown
+        compiledMarkdown() {
+            return this.md.render(this.markdownText);
+        }
     },
     methods: {
         next() {

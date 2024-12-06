@@ -26,6 +26,7 @@
                     <el-step title="Step 3" />
                 </el-steps>
                 <el-button class="next-button" style="margin-top: 12px" @click="next">Next step</el-button>
+                <div v-html="compiledMarkdown" class="markdown-body"></div>
                 <!-- 圆角框，仅在 Step 1 完成时显示 -->
                 <div v-if="active >= 1" class="rounded-box">
                     <div class="box-content">
@@ -40,6 +41,7 @@
 <script>
 import $ from 'jquery';
 import 'imagemapster';
+import MarkdownIt from 'markdown-it';
 
 export default {
     data() {
@@ -67,7 +69,36 @@ export default {
                     href: '/l4m2m3m2m1'
                 },
             ],
+            markdownText: `**总览**
+
+> 生成最优路径和候选路径
+
+**数据流信息**
+
+- 规划信息PlannerInfo
+- 带有路径信息RelOptInfo的规划信息 
+
+> - 集合：指交并差INTERSECT/UNION/MINUS，是这些操作则需要使用集合规划器进行规划
+
+> - 路径键：查询结果的排序顺序。主要作用是帮助优化器确定查询计划中各个步骤的输出是否已经排序，以及排序的顺序是什么
+
+> - 初步路径规划：只考虑如何扫描以及如何连接等基础操作，会生成所有可行路径，其中最优路径带有cheapest标签。物理优化集中于此处。
+            `,
+            md: new MarkdownIt({
+                html: false,        // 禁用 HTML 解析
+                xhtmlOut: false,    // 禁用 XHTML 输出
+                breaks: false,      // 不自动将换行符转换为 <br> 标签
+                linkify: true,      // 自动链接 URL
+                typographer: true,  // 启用排版功能（如引号、破折号等自动转换）
+                validate: true      // 启用严格模式
+            })
         };
+    },
+    computed: {
+        // 计算属性用于解析Markdown
+        compiledMarkdown() {
+            return this.md.render(this.markdownText);
+        }
     },
     methods: {
         next() {
