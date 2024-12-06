@@ -5,18 +5,18 @@
         <div style="margin-bottom: 20px;"></div> <!-- 增加底部空白 -->
         <div class="header-content">
           <el-button type="info" @click="goBack" class="back-button">Back</el-button>
-          <span class="text-large font-600 mr-3 title">L1M4</span>
+          <span class="text-large font-600 mr-3 title">L1M2</span>
         </div>
         <div style="margin-top: 20px;"></div> <!-- 增加顶部空白 -->
       </el-header>
       <el-main>
         <div class="image-container">
           <img id="mapAll" ref="mapAll" :src="imageSrc" usemap="#image-map"
-            style="width: 100%; height: 100%; object-fit: contain;" />
+               style="width: 100%; height: 100%; object-fit: contain;" />
           <map name="image-map" id="image-map">
-            <area v-for="hotspot in hotspots" :key="hotspot.id" :shape="hotspot.shape" :coords="hotspot.coords"
-              :href="hotspot.href" @click.prevent="navigateTo(hotspot.href)" @mouseover="highlightHotspot(hotspot.id)"
-              @mouseout="unhighlightHotspot(hotspot.id)" />
+            <area v-for="hotspot in hotspots" :key="hotspot.id" :shape="hotspot.shape"
+                  :coords="hotspot.coords" :href="hotspot.href" @click.prevent="navigateTo(hotspot.href)"
+                  @mouseover="highlightHotspot(hotspot.id)" @mouseout="unhighlightHotspot(hotspot.id)" />
           </map>
         </div>
         <div style="margin-top: 30px;"></div> <!-- 增加顶部空白 -->
@@ -26,6 +26,7 @@
           <el-step title="Step 3" />
         </el-steps>
         <el-button class="next-button" style="margin-top: 12px" @click="next">Next step</el-button>
+        <div v-html="compiledMarkdown" class="markdown-body"></div>
         <!-- 圆角框，仅在 Step 1 完成时显示 -->
         <div v-if="active >= 1" class="rounded-box">
           <div class="box-content">
@@ -40,6 +41,7 @@
 <script>
 import $ from 'jquery';
 import 'imagemapster';
+import MarkdownIt from 'markdown-it';
 
 export default {
   data() {
@@ -51,32 +53,58 @@ export default {
           id: '1',
           shape: 'poly',
           coords:
-            '520,116, 760,116, 770,116, 780,126, 780,236, 770,246, 520,246, 510,236, 510,126',
+              '520,116, 760,116, 770,116, 780,126, 780,236, 770,246, 520,246, 510,236, 510,126',
           href: '/l2m4m1'
         },
         {
           id: '3',
           shape: 'poly',
           coords:
-            '520,361, 760,361, 770,361, 780,371, 780,481, 770,491, 520,491, 510,481, 510,371',
+              '520,361, 760,361, 770,361, 780,371, 780,481, 770,491, 520,491, 510,481, 510,371',
           href: '/l2m4m2'
         },
         {
           id: '2',
           shape: 'poly',
           coords:
-            '980,116, 1220,116, 1230,116, 1235,126, 1235,236, 1230,246, 980,246, 970,236, 970,126',
+              '980,116, 1220,116, 1230,116, 1235,126, 1235,236, 1230,246, 980,246, 970,236, 970,126',
           href: '/l2m4m3'
         },
         {
           id: '4',
           shape: 'poly',
           coords:
-            '10,133,12,208,15,217,20,218,24,223,199,223,205,219,215,211,213,132,208,128,205,123,21,123,15,124',
+              '10,133,12,208,15,217,20,218,24,223,199,223,205,219,215,211,213,132,208,128,205,123,21,123,15,124',
           href: '/l2m2m4'
         },
         // 更多热点区域...
       ],
+      markdownText:
+          `**总览**
+
+本模块主要与编译执行模块进行交互，包含三个子模块：
+
+- 事务管理器：
+
+> 管理事务状态，调动其他模块，是事务管理模块的心脏。
+
+- 锁管理模块：
+
+> 管理锁的使用，包括进程管理器，MVCC并发控制。
+
+- 日志管理器：
+
+> 管理日志的写入，包括数据库历史恢复。
+
+      `,
+      md: new MarkdownIt({
+        html: false,        // 禁用 HTML 解析
+        xhtmlOut: false,    // 禁用 XHTML 输出
+        breaks: false,      // 不自动将换行符转换为 <br> 标签
+        linkify: true,      // 自动链接 URL
+        typographer: true,  // 启用排版功能（如引号、破折号等自动转换）
+        validate: true      // 启用严格模式
+      })
     };
   },
   mounted() {
@@ -88,6 +116,12 @@ export default {
       fillOpacity: 0.6,
       singleSelect: true,
     });
+  },
+  computed: {
+    // 计算属性用于解析Markdown
+    compiledMarkdown() {
+      return this.md.render(this.markdownText);
+    }
   },
   methods: {
     next() {
