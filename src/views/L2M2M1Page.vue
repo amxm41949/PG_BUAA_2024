@@ -26,6 +26,7 @@
                     <el-step title="Step 3" />
                 </el-steps>
                 <el-button class="next-button" style="margin-top: 12px" @click="next">Next step</el-button>
+                <div v-html="compiledMarkdown" class="markdown-body"></div>
                 <!-- 圆角框，仅在 Step 1 完成时显示 -->
                 <div v-if="active >= 1" class="rounded-box">
                     <div class="box-content">
@@ -39,7 +40,7 @@
 <script>
 import $ from 'jquery';
 import 'imagemapster';
-
+import MarkdownIt from 'markdown-it';
 export default {
     data() {
         return {
@@ -60,7 +61,74 @@ export default {
                 },//连接管理模块
                 // 更多热点区域...
             ],
+            markdownText: `**总览**
+
+> 进行词法分析、语法分析和语义分析生成查询树，并且判断sql语句类型。
+
+**数据流信息**
+
+- 查询语句query_string
+
+> 用户发送的sql语句字符串
+
+- 分析树parsetree_list
+
+> 经过词法分析和语法分析生成的分析树parsetree_list，postgre单独定义了一种结构体List来存放这类数据：
+
+\`\`\`C++
+typedef union ListCell
+ {
+   void     ptr_value;
+   int     int_value;
+   Oid     oid_value;
+ } ListCell;
+ 
+ typedef struct List
+ {
+*   NodeTag   type;     /* T_List, T_IntList, or T_OidList /
+*   int     length;     /* number of elements currently present /
+*   int     max_length;   /* allocated length of elements[] */
+   ListCell   elements;   / re-allocatable array of cells /
+*   /* We may allocate some cells along with the List header: /
+   ListCell  initial_elements[FLEXIBLE_ARRAY_MEMBER];
+*   /* If elements == initial_elements, it's not a separate allocation */
+ } List;
+\`\`\`
+
+- Query结构体
+
+> 用来存放查询功能用到的关键属性，例如查询命令类型，查询范围等等，以便后续的查询重写和查询规划。
+
+\`\`\`C++
+ typedef struct Query
+ {
+   NodeTag   type;
+   CmdType   commandType;  /* select|insert|update|delete|merge|utility /
+*   QuerySource querySource;  /* where did I come from? /
+*   int     resultRelation; /* rtable index of target relation for
+                  * INSERT/UPDATE/DELETE/MERGE; 0 for SELECT */
+   List     rtable;     / list of range table entries */
+   FromExpr   jointree;   / table join tree (FROM and WHERE clauses);
+                  * also USING clause for MERGE */
+   List     targetList;   / target list (of TargetEntry) */
+ } Query;
+\`\`\`
+            `,
+            md: new MarkdownIt({
+                html: false,        // 禁用 HTML 解析
+                xhtmlOut: false,    // 禁用 XHTML 输出
+                breaks: false,      // 不自动将换行符转换为 <br> 标签
+                linkify: true,      // 自动链接 URL
+                typographer: true,  // 启用排版功能（如引号、破折号等自动转换）
+                validate: true      // 启用严格模式
+            })
         };
+    },
+    computed: {
+        // 计算属性用于解析Markdown
+        compiledMarkdown() {
+            return this.md.render(this.markdownText);
+        }
     },
     mounted() {
         // 使用 mapster 插件，注意不需要 resize: true
@@ -103,7 +171,7 @@ export default {
 .image-container {
     position: relative;
     width: 100%;
-    height: 90vh;
+    height: 100%;
     /* 设置容器高度为视口高度 */
     overflow: hidden;
     /* 防止图片超出容器范围 */

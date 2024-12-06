@@ -26,6 +26,7 @@
                     <el-step title="Step 3" />
                 </el-steps>
                 <el-button class="next-button" style="margin-top: 12px" @click="next">Next step</el-button>
+                <div v-html="compiledMarkdown" class="markdown-body"></div>
                 <!-- 圆角框，仅在 Step 1 完成时显示 -->
                 <div v-if="active >= 1" class="rounded-box">
                     <div class="box-content">
@@ -40,6 +41,7 @@
 <script>
 import $ from 'jquery';
 import 'imagemapster';
+import MarkdownIt from 'markdown-it';
 
 export default {
     data() {
@@ -61,7 +63,39 @@ export default {
                     href: '/l3m2m3m2'
                 },
             ],
+            markdownText: `**总览**
+
+> 预处理和优化查询，生成规划信息用于路径生成，对应于代数优化
+
+**数据流信息**
+
+- 查询树链表的一个子查询(一棵查询树的一个查询节点，图中省略了for each)
+- 规划信息 \`PlannerInfo\`
+- 提升子链接与子查询：
+  - 子查询：完整语句，主要出现在FROM中
+  - 子链接：表达式，主要出现在WHERE中
+  - 举例展示此过程：
+    - 原始：\`select d.name from dept d where d.deptno in (select e.deptno from emp e where e.sal = 1000);\`
+    - 先提升子链接为子查询：\`select d.name from dept d (select e.deptno from emp e where e.sal = 1000) as sub where d.deptno = sub.deptno;\`
+    - 提升子查询：\`select d.name from dept d, emp e where d.deptno = e.deptno and e.sal = 1000;\`
+    - 显然，提升完成后比原意执行要高效得多
+- 范围表扫描与优化：遍历查询中的所有 RTE（如表、连接等），并检查是否存在外连接（简单地说，对于连接时不匹配的项，外连接保留，内连接不保留，内连接更省时间）等，进行优化。
+            `,
+            md: new MarkdownIt({
+                html: false,        // 禁用 HTML 解析
+                xhtmlOut: false,    // 禁用 XHTML 输出
+                breaks: false,      // 不自动将换行符转换为 <br> 标签
+                linkify: true,      // 自动链接 URL
+                typographer: true,  // 启用排版功能（如引号、破折号等自动转换）
+                validate: true      // 启用严格模式
+            })
         };
+    },
+    computed: {
+        // 计算属性用于解析Markdown
+        compiledMarkdown() {
+            return this.md.render(this.markdownText);
+        }
     },
     methods: {
         next() {

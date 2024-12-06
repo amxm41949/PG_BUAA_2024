@@ -26,6 +26,7 @@
                     <el-step title="Step 3" />
                 </el-steps>
                 <el-button class="next-button" style="margin-top: 12px" @click="next">Next step</el-button>
+                <div v-html="compiledMarkdown" class="markdown-body"></div>
                 <!-- 圆角框，仅在 Step 1 完成时显示 -->
                 <div v-if="active >= 1" class="rounded-box">
                     <div class="box-content">
@@ -40,6 +41,7 @@
 <script>
 import $ from 'jquery';
 import 'imagemapster';
+import MarkdownIt from 'markdown-it';
 
 export default {
     data() {
@@ -61,7 +63,43 @@ export default {
                     href: '/l2m2m4'
                 },
             ],
+            markdownText: `**总览**
+
+> 从路径生成计划
+
+**数据流信息**
+
+- 路径信息以及规划信息(Path 从规划信息中得出)
+- 计划语句\`PlannedStmt\`（内含计划树\`Plan*\`）构成的计划树链表
+
+简单来讲其实是一个逐层打包的过程
+
+- **路径（Path）**
+  - 在路径中，主要包含访问方法、成本估算、连接类型等信息。
+  - 路径不包含执行逻辑或操作步骤。
+- **计划树（Plan）**
+  - 在计划树中，添加了执行逻辑、操作步骤、输入输出关系等。
+  - 每个计划节点不仅包含操作类型，还包含执行该操作所需的参数和状态信息。
+- **计划语句(PlannedStmt)**
+  - 打包了额外的上下文信息，如查询的类型（\`commandType\`）、是否有返回值（\`hasReturning\`）、是否涉及角色依赖（\`dependsOnRole\`）等。
+  - 包含了查询的结果关系、子查询计划、游标处理信息等
+
+            `,
+            md: new MarkdownIt({
+                html: false,        // 禁用 HTML 解析
+                xhtmlOut: false,    // 禁用 XHTML 输出
+                breaks: false,      // 不自动将换行符转换为 <br> 标签
+                linkify: true,      // 自动链接 URL
+                typographer: true,  // 启用排版功能（如引号、破折号等自动转换）
+                validate: true      // 启用严格模式
+            })
         };
+    },
+    computed: {
+        // 计算属性用于解析Markdown
+        compiledMarkdown() {
+            return this.md.render(this.markdownText);
+        }
     },
     methods: {
         next() {
