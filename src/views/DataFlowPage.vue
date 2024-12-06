@@ -3,9 +3,9 @@
         <el-container>
             <el-header>
                 <div style="margin-bottom: 20px;"></div> <!-- 增加底部空白 -->
-
-                <span class="text-large font-600 mr-3" style="font-size: 30px;"> Title </span>
-
+                <div class="header-content">
+                    <span class="text-large font-600 mr-3 title">L0</span>
+                </div>
                 <div style="margin-top: 20px;"></div> <!-- 增加顶部空白 -->
             </el-header>
             <el-main>
@@ -18,11 +18,23 @@
                             @mouseover="highlightHotspot(hotspot.id)" @mouseout="unhighlightHotspot(hotspot.id)" />
                     </map>
                 </div>
+                <div style="margin-top: 30px;"></div> <!-- 增加顶部空白 -->
+                <el-steps style="max-width: 600px" :active="active" finish-status="success" align-center>
+                    <el-step title="Step 1" />
+                    <el-step title="Step 2" />
+                    <el-step title="Step 3" />
+                </el-steps>
+                <el-button class="next-button" style="margin-top: 12px" @click="next">Next step</el-button>
+                <!-- 圆角框，仅在 Step 1 完成时显示 -->
+                <div v-if="active >= 1" class="rounded-box">
+                    <div class="box-content">
+                        <p>Some Text</p>
+                    </div>
+                </div>
             </el-main>
         </el-container>
     </div>
 </template>
-
 <script>
 import $ from 'jquery';
 import 'imagemapster';
@@ -30,39 +42,30 @@ import 'imagemapster';
 export default {
     data() {
         return {
+            active: 0,
             imageSrc: '/pictures/level0/L0.png', // 替换为您的图片路径
             hotspots: [
+                // ...您的热点数据
                 {
                     id: '1',
                     shape: 'poly',
-                    coords: '71,831,388,831,397,827,403,822,407,813,409,806,408,677,408,670,406,667,402,657,389,656,388,650,71,651,61,651,52,658,46,668,46,676,46,806,51,821,62,829',
+                    coords: '75,844,383,844,399,840,402,830,407,828,407,816,409,802,409,687,404,677,399,671,394,666,385,664,76,663,66,664,57,668,52,674,48,681,47,818,50,828,59,838,67,843',
                     href: '/l1m2'
                 },
                 {
                     id: '2',
                     shape: 'poly',
-                    coords: '70,1219,387,1219,396,1215,402,1210,406,1201,408,1194,407,1065,407,1058,405,1055,401,1045,388,1044,387,1038,70,1039,60,1039,51,1046,45,1056,45,1064,45,1194,50,1209,61,1217',
+                    coords: '74,1230,382,1230,398,1226,401,1216,406,1214,406,1202,408,1188,408,1073,403,1063,398,1057,393,1052,384,1050,75,1049,65,1050,56,1054,51,1060,47,1067,46,1204,49,1214,58,1224,66,1229',
                     href: '/next-level/2'
                 },
                 {
                     id: '3',
                     shape: 'poly',
-                    coords: '946,831,1263,831,1272,827,1278,822,1282,813,1284,806,1283,677,1283,670,1281,667,1277,657,1264,656,1263,650,946,651,936,651,927,658,921,668,921,676,921,806,926,821,937,829',
+                    coords: '948,841,1256,841,1272,837,1275,827,1280,825,1280,813,1282,799,1282,684,1277,674,1272,668,1267,663,1258,661,949,660,939,661,930,665,925,671,921,678,920,815,923,825,932,835,940,840',
                     href: '/l1m4'
                 },
-                // 更多热点区域...
             ],
         };
-    },
-    mounted() {
-        // 使用 mapster 插件，注意不需要 resize: true
-        $('#mapAll').mapster({
-            fillColor: '1AC4F9',
-            strokeColor: "FFFFFF",
-            strokeWidth: 3,
-            fillOpacity: 0.6,
-            singleSelect: true,
-        });
     },
     methods: {
         navigateTo(url) {
@@ -75,21 +78,30 @@ export default {
         unhighlightHotspot(id) {
             const $map = $('#mapAll');
             $map.mapster('set', false, id); // 取消高亮显示
-        }
+        },
     },
+    mounted() {
+        $('#mapAll').mapster({
+            fillColor: '1AC4F9',
+            strokeColor: "FFFFFF",
+            strokeWidth: 3,
+            fillOpacity: 0.6,
+            singleSelect: true,
+        });
+    }
 };
 </script>
 
 <style scoped>
 .common-layout {
-    height: 100vh;
+    height: 100%;
     /* 使布局填满整个视口高度 */
 }
 
 .image-container {
     position: relative;
     width: 100%;
-    height: 90vh;
+    height: 100%;
     /* 设置容器高度为视口高度 */
     overflow: hidden;
     /* 防止图片超出容器范围 */
@@ -102,5 +114,65 @@ img {
     /* 高度始终填满容器 */
     object-fit: contain;
     /* 保持图片比例，同时确保不会超出容器 */
+}
+
+.rounded-box {
+    position: absolute;
+    top: 20%;
+    /* 顶部偏移量 */
+    left: 30%;
+    /* 左边偏移量 */
+    width: 200px;
+    /* 圆角框宽度 */
+    height: 100px;
+    /* 圆角框高度 */
+    background-color: rgba(255, 255, 255, 0.5);
+    /* 半透明白色背景 */
+    border: 2px solid black;
+    /* 黑色边框 */
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.box-content p {
+    margin: 0;
+    font-size: 16px;
+    color: black;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    /* 垂直居中对齐 */
+    justify-content: flex-start;
+    gap: 10px;
+    /* 按钮与标题之间的间隔 */
+}
+
+
+.header-content .title {
+    font-size: 40px;
+    /* 增大标题的字体大小 */
+    font-weight: bold;
+    /* 设置标题为加粗 */
+    line-height: 40px;
+    /* 调整标题的垂直对齐 */
+}
+
+.next-button {
+    font-size: 22px;
+    /* 增大按钮文字的字体大小 */
+    padding: 15px 30px;
+    /* 增大按钮的内边距 */
+    height: 60px;
+    /* 设置按钮的高度 */
+    width: 200px;
+    /* 设置按钮的宽度 */
+    line-height: 60px;
+    /* 让文字垂直居中 */
+    border-radius: 5px;
+    /* 设置按钮的圆角 */
 }
 </style>

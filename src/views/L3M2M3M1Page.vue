@@ -5,7 +5,7 @@
                 <div style="margin-bottom: 20px;"></div> <!-- 增加底部空白 -->
                 <div class="header-content">
                     <el-button type="info" @click="goBack" class="back-button">Back</el-button>
-                    <span class="text-large font-600 mr-3 title">L1M2</span>
+                    <span class="text-large font-600 mr-3 title">L3M2M3M1</span>
                 </div>
                 <div style="margin-top: 20px;"></div> <!-- 增加顶部空白 -->
             </el-header>
@@ -44,51 +44,24 @@ import 'imagemapster';
 export default {
     data() {
         return {
-            imageSrc: '/pictures/level1/L1M2.png', // 替换为您的图片路径
+            active: 0,
+            imageSrc: '/pictures/level3/L3M2M3M1.png', // 替换为您的图片路径
             hotspots: [
+                // ...您的热点数据
                 {
                     id: '1',
                     shape: 'poly',
-                    coords: '356,335,357,413,359,422,362,423,365,427,371,429,549,429,555,428,561,425,564,417,566,415,567,338,565,332,561,326,556,325,371,322,363,328,359,327',
-                    href: '/l2m2m1'
+                    coords: '39,182,247,181,259,174,261,164,262,75,254,66,249,62,35,60,24,66,23,79,21,164,24,173,30,177',
+                    href: '/l2m2m2'
                 },
                 {
                     id: '2',
                     shape: 'poly',
-                    coords: '355,559,356,637,358,646,361,647,364,651,370,653,548,653,554,652,560,649,563,641,565,639,566,562,564,556,560,550,555,549,370,546,362,552,358,551',
-                    href: '/l2m2m2'
+                    coords: '630,943,837,943,846,945,851,951,857,959,857,1055,853,1063,848,1069,842,1073,631,1073,627,1070,621,1064,618,1057,618,959,618,952,624,947',
+                    href: '/l3m2m3m2'
                 },
-                {
-                    id: '3',
-                    shape: 'poly',
-                    coords: '882,429,1117,429,1125,427,1131,420,1131,415,1133,408,1133,336,1129,326,1122,322,881,322,872,326,869,333,866,348,868,413,872,422,876,425',
-                    href: '/l2m2m3'
-                },
-                {
-                    id: '4',
-                    shape: 'poly',
-                    coords: '881,653,1116,653,1124,651,1130,644,1130,639,1132,632,1132,560,1128,550,1121,546,880,546,871,550,868,557,865,572,867,637,871,646,875,649',
-                    href: '/l2m2m4'
-                },
-                {
-                    id: '5',
-                    shape: 'poly',
-                    coords: '0,796,1,874,3,883,6,884,9,888,15,890,193,890,199,889,205,886,208,878,210,876,211,799,209,793,205,787,200,786,15,783,7,789,3,788',
-                    href: '/next-level/4'
-                },//存储模块
-                // 更多热点区域...
             ],
         };
-    },
-    mounted() {
-        // 使用 mapster 插件，注意不需要 resize: true
-        $('#mapAll').mapster({
-            fillColor: '1AC4F9',
-            strokeColor: "FFFFFF",
-            strokeWidth: 3,
-            fillOpacity: 0.6,
-            singleSelect: true,
-        });
     },
     methods: {
         next() {
@@ -109,6 +82,15 @@ export default {
             this.$router.go(-1)
         }
     },
+    mounted() {
+        $('#mapAll').mapster({
+            fillColor: '1AC4F9',
+            strokeColor: "FFFFFF",
+            strokeWidth: 3,
+            fillOpacity: 0.6,
+            singleSelect: true,
+        });
+    }
 };
 </script>
 
@@ -134,6 +116,32 @@ img {
     /* 高度始终填满容器 */
     object-fit: contain;
     /* 保持图片比例，同时确保不会超出容器 */
+}
+
+.rounded-box {
+    position: absolute;
+    top: 20%;
+    /* 顶部偏移量 */
+    left: 30%;
+    /* 左边偏移量 */
+    width: 200px;
+    /* 圆角框宽度 */
+    height: 100px;
+    /* 圆角框高度 */
+    background-color: rgba(255, 255, 255, 0.5);
+    /* 半透明白色背景 */
+    border: 2px solid black;
+    /* 黑色边框 */
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.box-content p {
+    margin: 0;
+    font-size: 16px;
+    color: black;
 }
 
 .header-content {
