@@ -62,15 +62,12 @@ export default {
                     id: '3',
                     shape: 'poly',
                     coords: '948,841,1256,841,1272,837,1275,827,1280,825,1280,813,1282,799,1282,684,1277,674,1272,668,1267,663,1258,661,949,660,939,661,930,665,925,671,921,678,920,815,923,825,932,835,940,840',
-                    href: '/next-level/2'
+                    href: '/l1m4'
                 },
             ],
         };
     },
     methods: {
-        next() {
-            if (this.active++ > 2) this.active = 0;
-        },
         navigateTo(url) {
             this.$router.push(url); // 使用Vue Router进行导航
         },
