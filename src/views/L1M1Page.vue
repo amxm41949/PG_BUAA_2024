@@ -13,11 +13,6 @@
                 <div class="image-container">
                     <img id="mapAll" ref="mapAll" :src="imageSrc" usemap="#image-map"
                         style="width: 100%; height: 100%; object-fit: contain;" />
-                    <map name="image-map" id="image-map">
-                        <area v-for="hotspot in hotspots" :key="hotspot.id" :shape="hotspot.shape"
-                            :coords="hotspot.coords" :href="hotspot.href" @click.prevent="navigateTo(hotspot.href)"
-                            @mouseover="highlightHotspot(hotspot.id)" @mouseout="unhighlightHotspot(hotspot.id)" />
-                    </map>
                 </div>
                 <div style="margin-top: 30px;"></div> <!-- 增加顶部空白 -->
                 <el-steps style="max-width: 600px" :active="active" finish-status="success" align-center>
@@ -26,7 +21,8 @@
                     <el-step title="Step 3" />
                 </el-steps>
                 <el-button class="next-button" style="margin-top: 12px" @click="next">Next step</el-button>
-                <!-- 圆角框，仅在 Step 1 完成时显示 -->
+               <div v-html="compiledMarkdown" class="markdown-body"></div>
+               <!-- 圆角框，仅在 Step 1 完成时显示 -->
                 <div v-if="active >= 1" class="rounded-box">
                     <div class="box-content">
                         <p>Some Text</p>
@@ -40,44 +36,60 @@
 <script>
 import $ from 'jquery';
 import 'imagemapster';
+import MarkdownIt from 'markdown-it';
 
 export default {
     data() {
         return {
-            imageSrc: '/pictures/level1/L1M1.png', // 替换为您的图片路径
-            hotspots: [
-                {
-                    id: '1',
-                    shape: 'poly',
-                    coords: '356,335,357,413,359,422,362,423,365,427,371,429,549,429,555,428,561,425,564,417,566,415,567,338,565,332,561,326,556,325,371,322,363,328,359,327',
-                    href: '/l2m2m1'
-                },
-                {
-                    id: '2',
-                    shape: 'poly',
-                    coords: '355,559,356,637,358,646,361,647,364,651,370,653,548,653,554,652,560,649,563,641,565,639,566,562,564,556,560,550,555,549,370,546,362,552,358,551',
-                    href: '/l2m2m2'
-                },
-                {
-                    id: '3',
-                    shape: 'poly',
-                    coords: '882,429,1117,429,1125,427,1131,420,1131,415,1133,408,1133,336,1129,326,1122,322,881,322,872,326,869,333,866,348,868,413,872,422,876,425',
-                    href: '/l2m2m3'
-                },
-                {
-                    id: '4',
-                    shape: 'poly',
-                    coords: '881,653,1116,653,1124,651,1130,644,1130,639,1132,632,1132,560,1128,550,1121,546,880,546,871,550,868,557,865,572,867,637,871,646,875,649',
-                    href: '/l2m2m4'
-                },
-                {
-                    id: '5',
-                    shape: 'poly',
-                    coords: '0,796,1,874,3,883,6,884,9,888,15,890,193,890,199,889,205,886,208,878,210,876,211,799,209,793,205,787,200,786,15,783,7,789,3,788',
-                    href: '/next-level/4'
-                },//存储模块
-                // 更多热点区域...
-            ],
+            active: 0,
+            imageSrc: '/pictures/level1/L1M1.png',
+            markdownText: 
+`**总览**
+
+>接受外部操作对系统的请求，对操作请求进行预处理和分发，起系统逻辑控制作用。
+
+**模块信息**
+
+- 守护进程postmaster
+    > 多用户模式下一个数据库实例由守护进程 Postmaster 来管理。它是一个运行在服务器上的总控进程，负责整个系统的启动和关闭，并且在服务进程出现错误时完成系统的恢复。它会为客户端连接请求 fork 一个 Postgres 服务进程，来代表客户端在数据库上执行各种命令。
+
+- 服务进程postgres
+    > Postgres进程是实际的接受查询请求并调用相应模块处理查询的服务进程。它直接接受用户的命令进行编译执行，并将结果返回给用户。如此循环，直到用户断开连接。
+
+- ReadCommand
+    \`\`\`C++
+    /* ----------------
+     *                ReadCommand 从前端或标准输入读取命令，如果文件结束，
+     *                将其放入 inBuf，并返回信息类型代码（信息的第一个字节）。
+     *                则返回 EOF。
+     * ----------------
+     */
+    static int
+    ReadCommand(StringInfo inBuf)
+    {
+            int                        result;
+
+            if (whereToSendOutput == DestRemote)
+                    result = SocketBackend(inBuf);
+            else
+                    result = InteractiveBackend(inBuf);
+            return result;
+    }
+    \`\`\`
+
+**数据流信息**
+
+- 用户命令
+    > 用户命令分为两种：一种是查询命令，即插人、删除、更新和选择四种命令。另一种是非查询命令，如创建/删除表、视图、索引等命令。
+            `,
+            md: new MarkdownIt({
+                html: false,        // 禁用 HTML 解析
+                xhtmlOut: false,    // 禁用 XHTML 输出
+                breaks: false,      // 不自动将换行符转换为 <br> 标签
+                linkify: true,      // 自动链接 URL
+                typographer: true,  // 启用排版功能（如引号、破折号等自动转换）
+                validate: true      // 启用严格模式
+            })
         };
     },
     mounted() {
@@ -89,6 +101,12 @@ export default {
             fillOpacity: 0.6,
             singleSelect: true,
         });
+    },
+    computed: {
+        // 计算属性用于解析Markdown
+        compiledMarkdown() {
+            return this.md.render(this.markdownText);
+        }
     },
     methods: {
         next() {
