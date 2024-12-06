@@ -5,7 +5,7 @@
                 <div style="margin-bottom: 20px;"></div> <!-- 增加底部空白 -->
                 <div class="header-content">
                     <el-button type="info" @click="goBack" class="back-button">Back</el-button>
-                    <span class="text-large font-600 mr-3 title">L2M2M3</span>
+                    <span class="text-large font-600 mr-3 title">L2M2M3(查询规划模块)</span>
                 </div>
                 <div style="margin-top: 20px;"></div> <!-- 增加顶部空白 -->
             </el-header>

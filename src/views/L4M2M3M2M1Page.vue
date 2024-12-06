@@ -5,7 +5,7 @@
                 <div style="margin-bottom: 20px;"></div> <!-- 增加底部空白 -->
                 <div class="header-content">
                     <el-button type="info" @click="goBack" class="back-button">Back</el-button>
-                    <span class="text-large font-600 mr-3 title">L4M2M3M3M1</span>
+                    <span class="text-large font-600 mr-3 title">L4M2M3M3M1(初步路径规划)</span>
                 </div>
                 <div style="margin-top: 20px;"></div> <!-- 增加顶部空白 -->
             </el-header>
@@ -72,7 +72,7 @@ export default {
 **算法解析**
 
 1. 动态规划
-   1. ![img](https://xcnxiwfp39pl.feishu.cn/space/api/box/stream/download/asynccode/?code=OWVlMmRjZTBjYjg5MTYwMWMzYjg2YTFiMTBlMzFjMWVfUXFHc0Rta0YzZ2J1N0tRYllKNVViYUhOdzlncGptUmZfVG9rZW46RjNBSGI5MW95bzlwRml4cWg4emNWQlpkbkJkXzE3MzM0NjAyMTg6MTczMzQ2MzgxOF9WNA)
+   ![img](/pictures/level4/dp.png)
 
    2.  此动态规划逐层建立连接路径
 
@@ -81,7 +81,7 @@ export default {
    5. 分区表：有些表因为大小等原因切割后存储，成为分区表，故而此处要进行针对其的优化
    6. 并行优化指通过gather操作等进行性能优化
 2. 遗传算法
-   1. ![img](https://xcnxiwfp39pl.feishu.cn/space/api/box/stream/download/asynccode/?code=NzEwYTNjYzI1YjQzZTVmNmI4NDRhYzg3ZTRlYjk1MDVfY3lKUXl2S3BTejc0Nk9vZVJoUDF1cjBHSE1mY2dzWGFfVG9rZW46WG5IRGJyM3Z5b1o5SFN4YUtva2NmNmlPbnZnXzE3MzM0NjAyMTg6MTczMzQ2MzgxOF9WNA)
+   1. ![img](/pictures/level4/hp.png)
 
    2.  在此遗传算法中
 

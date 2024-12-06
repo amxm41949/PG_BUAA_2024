@@ -5,7 +5,7 @@
                 <div style="margin-bottom: 20px;"></div> <!-- 增加底部空白 -->
                 <div class="header-content">
                     <el-button type="info" @click="goBack" class="back-button">Back</el-button>
-                    <span class="text-large font-600 mr-3 title">L2M2M4</span>
+                    <span class="text-large font-600 mr-3 title">L2M2M4(查询执行模块)</span>
                 </div>
                 <div style="margin-top: 20px;"></div> <!-- 增加顶部空白 -->
             </el-header>
@@ -155,6 +155,7 @@ Portal模块将sql语句划分为两种类型：
 - 非执行计划树操作 ：数据定义语句(DDL，如CREATE TABLE)
 
 整个查询执行的策略选择、启动、回收 都由Portal 组件完成
+![img](/pictures/level2/portal_ari.png)
 
 Portal数据结构：
 
@@ -203,7 +204,8 @@ typedef enum PortalStrategy
 } PortalStrategy;
 \`\`\`
 
-#### 功能处理器(Executor)
+#### 功能处理器(UtilityProcessor)
+![img](/pictures/level2/up.png)
 
 **总述**
 
@@ -239,7 +241,7 @@ typedef enum PortalStrategy
 
 PSQL 中的执行计划可以组织成一个二叉树（查询计划树）：每个物理操作符拥有 0~2 个输入和 1 个输出。在执行时数据流（元组）从下层流向上层，下层节点的输出作为上层节点的输入。根节点的输出即为查询的结果。
 
-![img](https://xcnxiwfp39pl.feishu.cn/space/api/box/stream/download/asynccode/?code=MTNlYzdiMjI4MDk0Mjg0ODUxYzVmNTg3NGY4M2VmMjJfODhJOXNZcG5NT0p6dTN4MUdmcEZyWXJGN3lIWDZyN0pfVG9rZW46TVJrdmI5ZFFxb1F5SjV4QnpnQWNoUTVobnFiXzE3MzM0NTk5MTM6MTczMzQ2MzUxM19WNA)
+![img](/pictures/level2/portal.png)
 
 物理代数的计划节点按照功能分为四类：控制节点(control node)、扫描节点(scan node)、连接节点(join node)和物化节点(materialization node)。他们都继承于公共父类 Plan，并为扫描、连接节点定义了公共父类 Scan，Join。Hash连接属于连接节点，故继承于Join。
 

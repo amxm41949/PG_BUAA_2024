@@ -69,4 +69,31 @@ canvas {
     /* 在小屏幕上也保持字体大小为原来的两倍 */
   }
 }
+
+.markdown-body th,
+.markdown-body td {
+  padding: 8px;
+  border: 1px solid #ddd;
+  /* 轻微的边框 */
+}
+
+.markdown-body table tr:nth-child(even) {
+  background-color: #f2f2f2 !important;
+  /* 偶数行使用更浅的背景色 */
+}
+
+.markdown-body tr:nth-child(odd) {
+  background-color: #fff;
+  /* 奇数行使用白色背景 */
+}
+
+.markdown-body table th {
+  background-color: #f0f0f0 !important;
+  /* 表头使用浅灰色背景 */
+  font-weight: bold;
+}
+
+.markdown-body td {
+  text-align: left;
+}
 </style>
