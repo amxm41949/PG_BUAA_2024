@@ -3,9 +3,10 @@
         <el-container>
             <el-header>
                 <div style="margin-bottom: 20px;"></div> <!-- 增加底部空白 -->
-
-                <span class="text-large font-600 mr-3" style="font-size: 30px;"> L2M2M4 </span>
-
+                <div class="header-content">
+                    <el-button type="info" @click="goBack" class="back-button">Back</el-button>
+                    <span class="text-large font-600 mr-3 title">L2M2M4</span>
+                </div>
                 <div style="margin-top: 20px;"></div> <!-- 增加顶部空白 -->
             </el-header>
             <el-main>
@@ -17,6 +18,19 @@
                             :coords="hotspot.coords" :href="hotspot.href" @click.prevent="navigateTo(hotspot.href)"
                             @mouseover="highlightHotspot(hotspot.id)" @mouseout="unhighlightHotspot(hotspot.id)" />
                     </map>
+                </div>
+                <div style="margin-top: 30px;"></div> <!-- 增加顶部空白 -->
+                <el-steps style="max-width: 600px" :active="active" finish-status="success" align-center>
+                    <el-step title="Step 1" />
+                    <el-step title="Step 2" />
+                    <el-step title="Step 3" />
+                </el-steps>
+                <el-button class="next-button" style="margin-top: 12px" @click="next">Next step</el-button>
+                <!-- 圆角框，仅在 Step 1 完成时显示 -->
+                <div v-if="active >= 1" class="rounded-box">
+                    <div class="box-content">
+                        <p>Some Text</p>
+                    </div>
                 </div>
             </el-main>
         </el-container>
@@ -35,19 +49,19 @@ export default {
                 {
                     id: '1',
                     shape: 'poly',
-                    coords: '171,326,191,323,199,320,200,313,202,301,202,243,201,232,196,225,187,224,9,222,8,225,4,229,-8,237,-9,307,-8,323',
+                    coords: '16,231,188,230,197,226,200,223,200,214,199,142,194,134,193,132,187,130,11,130,4,134,2,138,-1,143,-1,215,0,223,6,227',
                     href: '/l2m2m3'
                 },
                 {
                     id: '2',
                     shape: 'poly',
-                    coords: '1251,434,1275,434,1283,431,1284,424,1286,412,1286,354,1285,343,1280,336,1271,335,1093,333,1084,336,1080,340,1076,348,1075,418,1076,435',
+                    coords: '1094,346,1266,345,1275,341,1278,338,1278,329,1277,257,1272,249,1271,247,1265,245,1089,245,1082,249,1080,253,1077,258,1077,330,1078,338,1084,342',
                     href: '/next-level/3'
                 },
                 {
                     id: '3',
                     shape: 'poly',
-                    coords: '1250,204,1274,204,1282,201,1283,194,1285,182,1285,124,1284,113,1279,106,1270,105,1092,103,1083,106,1079,110,1075,118,1074,188,1075,205',
+                    coords: '1093,119,1265,118,1274,114,1277,111,1277,102,1276,30,1271,22,1270,20,1264,18,1088,18,1081,22,1079,26,1076,31,1076,103,1077,111,1083,115',
                     href: '/next-level/4'
                 },
                 // 更多热点区域...
@@ -65,6 +79,9 @@ export default {
         });
     },
     methods: {
+        next() {
+            if (this.active++ > 2) this.active = 0;
+        },
         navigateTo(url) {
             this.$router.push(url); // 使用Vue Router进行导航
         },
@@ -75,6 +92,9 @@ export default {
         unhighlightHotspot(id) {
             const $map = $('#mapAll');
             $map.mapster('set', false, id); // 取消高亮显示
+        },
+        goBack() {
+            this.$router.go(-1)
         }
     },
 };
@@ -82,14 +102,14 @@ export default {
 
 <style scoped>
 .common-layout {
-    height: 100vh;
+    height: 100%;
     /* 使布局填满整个视口高度 */
 }
 
 .image-container {
     position: relative;
     width: 100%;
-    height: 90vh;
+    height: 100%;
     /* 设置容器高度为视口高度 */
     overflow: hidden;
     /* 防止图片超出容器范围 */
@@ -102,5 +122,49 @@ img {
     /* 高度始终填满容器 */
     object-fit: contain;
     /* 保持图片比例，同时确保不会超出容器 */
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    /* 垂直居中对齐 */
+    justify-content: flex-start;
+    gap: 10px;
+    /* 按钮与标题之间的间隔 */
+}
+
+.header-content .back-button {
+    line-height: 40px;
+    /* 调整按钮文字的垂直对齐 */
+    padding: 10px 25px;
+    /* 给按钮添加适当的内边距 */
+    font-size: 20px;
+    /* 设置按钮的字体大小，调大文字 */
+    /* 调整按钮的垂直对齐 */
+}
+
+
+.header-content .title {
+    font-size: 40px;
+    /* 增大标题的字体大小 */
+    font-weight: bold;
+    /* 设置标题为加粗 */
+    line-height: 40px;
+    /* 调整标题的垂直对齐 */
+}
+
+.next-button {
+    font-size: 22px;
+    /* 增大按钮文字的字体大小 */
+    padding: 15px 30px;
+    /* 增大按钮的内边距 */
+    height: 60px;
+    /* 设置按钮的高度 */
+    width: 200px;
+    /* 设置按钮的宽度 */
+    line-height: 60px;
+    /* 让文字垂直居中 */
+    border-radius: 5px;
+    /* 设置按钮的圆角 */
 }
 </style>

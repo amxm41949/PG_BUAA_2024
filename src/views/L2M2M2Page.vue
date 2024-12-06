@@ -3,9 +3,10 @@
         <el-container>
             <el-header>
                 <div style="margin-bottom: 20px;"></div> <!-- 增加底部空白 -->
-
-                <span class="text-large font-600 mr-3" style="font-size: 30px;"> L2M2M2 </span>
-
+                <div class="header-content">
+                    <el-button type="info" @click="goBack" class="back-button">Back</el-button>
+                    <span class="text-large font-600 mr-3 title">L2M2M2</span>
+                </div>
                 <div style="margin-top: 20px;"></div> <!-- 增加顶部空白 -->
             </el-header>
             <el-main>
@@ -17,6 +18,19 @@
                             :coords="hotspot.coords" :href="hotspot.href" @click.prevent="navigateTo(hotspot.href)"
                             @mouseover="highlightHotspot(hotspot.id)" @mouseout="unhighlightHotspot(hotspot.id)" />
                     </map>
+                </div>
+                <div style="margin-top: 30px;"></div> <!-- 增加顶部空白 -->
+                <el-steps style="max-width: 600px" :active="active" finish-status="success" align-center>
+                    <el-step title="Step 1" />
+                    <el-step title="Step 2" />
+                    <el-step title="Step 3" />
+                </el-steps>
+                <el-button class="next-button" style="margin-top: 12px" @click="next">Next step</el-button>
+                <!-- 圆角框，仅在 Step 1 完成时显示 -->
+                <div v-if="active >= 1" class="rounded-box">
+                    <div class="box-content">
+                        <p>Some Text</p>
+                    </div>
                 </div>
             </el-main>
         </el-container>
@@ -35,13 +49,13 @@ export default {
                 {
                     id: '1',
                     shape: 'poly',
-                    coords: '184,101,196,101,199,99,205,94,206,87,205,11,205,10,199,3,188,-1,16,-1,12,1,6,6,2,12,0,89,1,93,17,101',
+                    coords: '9,103,188,102,199,98,204,94,205,80,204,16,201,7,195,4,192,1,16,1,7,3,4,6,1,19,1,90,3,97',
                     href: '/l2m2m1'
                 },
                 {
                     id: '2',
                     shape: 'poly',
-                    coords: '849,714,861,714,864,712,870,707,871,700,870,624,870,623,864,616,853,612,681,612,677,614,671,619,667,625,665,702,666,706,682,714',
+                    coords: '675,720,854,719,865,715,870,711,871,697,870,633,867,624,861,621,858,618,682,618,673,620,670,623,667,636,667,707,669,714',
                     href: '/l2m2m3'
                 },
                 // 更多热点区域...
@@ -59,6 +73,9 @@ export default {
         });
     },
     methods: {
+        next() {
+            if (this.active++ > 2) this.active = 0;
+        },
         navigateTo(url) {
             this.$router.push(url); // 使用Vue Router进行导航
         },
@@ -69,6 +86,9 @@ export default {
         unhighlightHotspot(id) {
             const $map = $('#mapAll');
             $map.mapster('set', false, id); // 取消高亮显示
+        },
+        goBack() {
+            this.$router.go(-1)
         }
     },
 };
@@ -76,7 +96,7 @@ export default {
 
 <style scoped>
 .common-layout {
-    height: 100vh;
+    height: 100%;
     /* 使布局填满整个视口高度 */
 }
 
@@ -96,5 +116,49 @@ img {
     /* 高度始终填满容器 */
     object-fit: contain;
     /* 保持图片比例，同时确保不会超出容器 */
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    /* 垂直居中对齐 */
+    justify-content: flex-start;
+    gap: 10px;
+    /* 按钮与标题之间的间隔 */
+}
+
+.header-content .back-button {
+    line-height: 40px;
+    /* 调整按钮文字的垂直对齐 */
+    padding: 10px 25px;
+    /* 给按钮添加适当的内边距 */
+    font-size: 20px;
+    /* 设置按钮的字体大小，调大文字 */
+    /* 调整按钮的垂直对齐 */
+}
+
+
+.header-content .title {
+    font-size: 40px;
+    /* 增大标题的字体大小 */
+    font-weight: bold;
+    /* 设置标题为加粗 */
+    line-height: 40px;
+    /* 调整标题的垂直对齐 */
+}
+
+.next-button {
+    font-size: 22px;
+    /* 增大按钮文字的字体大小 */
+    padding: 15px 30px;
+    /* 增大按钮的内边距 */
+    height: 60px;
+    /* 设置按钮的高度 */
+    width: 200px;
+    /* 设置按钮的宽度 */
+    line-height: 60px;
+    /* 让文字垂直居中 */
+    border-radius: 5px;
+    /* 设置按钮的圆角 */
 }
 </style>

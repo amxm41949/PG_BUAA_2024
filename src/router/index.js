@@ -6,6 +6,11 @@ import L2M2M1Page from '@/views/L2M2M1Page.vue';
 import L2M2M2Page from '@/views/L2M2M2Page.vue';
 import L2M2M3Page from '@/views/L2M2M3Page.vue';
 import L2M2M4Page from '@/views/L2M2M4Page.vue';
+import L3M2M3M1Page from '@/views/L3M2M3M1Page.vue';
+import L3M2M3M2Page from '@/views/L3M2M3M2Page.vue';
+import L3M2M3M3Page from '@/views/L3M2M3M3Page.vue';
+import L4M2M3M2M1Page from '@/views/L4M2M3M2M1Page.vue';
+
 
 const routes = [
     { path: '/', component: DataFlowPage },
@@ -14,7 +19,12 @@ const routes = [
     { path: '/l2m2m2', component: L2M2M2Page },
     { path: '/l2m2m3', component: L2M2M3Page },
     { path: '/l2m2m4', component: L2M2M4Page },
+    { path: '/l3m2m3m1', component: L3M2M3M1Page },
+    { path: '/l3m2m3m2', component: L3M2M3M2Page },
+    { path: '/l3m2m3m3', component: L3M2M3M3Page },
+    { path: '/l4m2m3m2m1', component: L4M2M3M2M1Page },
     { path: '/next-level/:id', component: NextLevelPage }
+
 ];
 
 const router = createRouter({

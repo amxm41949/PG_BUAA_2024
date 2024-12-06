@@ -3,9 +3,10 @@
         <el-container>
             <el-header>
                 <div style="margin-bottom: 20px;"></div> <!-- 增加底部空白 -->
-
-                <span class="text-large font-600 mr-3" style="font-size: 30px;"> L2M2M1 </span>
-
+                <div class="header-content">
+                    <el-button type="info" @click="goBack" class="back-button">Back</el-button>
+                    <span class="text-large font-600 mr-3 title">L2M2M1</span>
+                </div>
                 <div style="margin-top: 20px;"></div> <!-- 增加顶部空白 -->
             </el-header>
             <el-main>
@@ -18,11 +19,23 @@
                             @mouseover="highlightHotspot(hotspot.id)" @mouseout="unhighlightHotspot(hotspot.id)" />
                     </map>
                 </div>
+                <div style="margin-top: 30px;"></div> <!-- 增加顶部空白 -->
+                <el-steps style="max-width: 600px" :active="active" finish-status="success" align-center>
+                    <el-step title="Step 1" />
+                    <el-step title="Step 2" />
+                    <el-step title="Step 3" />
+                </el-steps>
+                <el-button class="next-button" style="margin-top: 12px" @click="next">Next step</el-button>
+                <!-- 圆角框，仅在 Step 1 完成时显示 -->
+                <div v-if="active >= 1" class="rounded-box">
+                    <div class="box-content">
+                        <p>Some Text</p>
+                    </div>
+                </div>
             </el-main>
         </el-container>
     </div>
 </template>
-
 <script>
 import $ from 'jquery';
 import 'imagemapster';
@@ -35,9 +48,15 @@ export default {
                 {
                     id: '1',
                     shape: 'poly',
-                    coords: '956,555,941,566,930,590,930,663,934,681,940,688,986,688,1117,689,1247,689,1262,688,1272,676,1290,657,1312,635,1289,572,1257,556',
+                    coords: '935,578,936,673,939,683,944,688,953,693,1260,693,1269,688,1275,681,1279,679,1280,575,1274,566,1267,559,953,557,938,564',
                     href: '/l2m2m2'
                 },
+                {
+                    id: '1',
+                    shape: 'poly',
+                    coords: '19, 121, 219, 120, 231, 114, 237, 111, 242, 105, 242, 3, 237, -4, 233, -10, 224, -13, 21, -12, 4, -11, -1, 1, -1, 7, 2, 107, 9, 116',
+                    href: '/next-level/2'
+                },//连接管理模块
                 // 更多热点区域...
             ],
         };
@@ -53,6 +72,9 @@ export default {
         });
     },
     methods: {
+        next() {
+            if (this.active++ > 2) this.active = 0;
+        },
         navigateTo(url) {
             this.$router.push(url); // 使用Vue Router进行导航
         },
@@ -63,6 +85,9 @@ export default {
         unhighlightHotspot(id) {
             const $map = $('#mapAll');
             $map.mapster('set', false, id); // 取消高亮显示
+        },
+        goBack() {
+            this.$router.go(-1)
         }
     },
 };
@@ -70,7 +95,7 @@ export default {
 
 <style scoped>
 .common-layout {
-    height: 100vh;
+    height: 100%;
     /* 使布局填满整个视口高度 */
 }
 
@@ -90,5 +115,49 @@ img {
     /* 高度始终填满容器 */
     object-fit: contain;
     /* 保持图片比例，同时确保不会超出容器 */
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    /* 垂直居中对齐 */
+    justify-content: flex-start;
+    gap: 10px;
+    /* 按钮与标题之间的间隔 */
+}
+
+.header-content .back-button {
+    line-height: 40px;
+    /* 调整按钮文字的垂直对齐 */
+    padding: 10px 25px;
+    /* 给按钮添加适当的内边距 */
+    font-size: 20px;
+    /* 设置按钮的字体大小，调大文字 */
+    /* 调整按钮的垂直对齐 */
+}
+
+
+.header-content .title {
+    font-size: 40px;
+    /* 增大标题的字体大小 */
+    font-weight: bold;
+    /* 设置标题为加粗 */
+    line-height: 40px;
+    /* 调整标题的垂直对齐 */
+}
+
+.next-button {
+    font-size: 22px;
+    /* 增大按钮文字的字体大小 */
+    padding: 15px 30px;
+    /* 增大按钮的内边距 */
+    height: 60px;
+    /* 设置按钮的高度 */
+    width: 200px;
+    /* 设置按钮的宽度 */
+    line-height: 60px;
+    /* 让文字垂直居中 */
+    border-radius: 5px;
+    /* 设置按钮的圆角 */
 }
 </style>
