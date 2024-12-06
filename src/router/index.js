@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import DataFlowPage from '../views/DataFlowPage.vue';
 import NextLevelPage from '../views/NextLevelPage.vue';
+import L1M1Page from '@/views/L1M1Page.vue';
 import L1M2Page from '@/views/L1M2Page.vue';
 import L2M2M1Page from '@/views/L2M2M1Page.vue';
 import L2M2M2Page from '@/views/L2M2M2Page.vue';
@@ -17,6 +18,7 @@ import L2M4M3Page from "@/views/L2M4M3Page.vue";
 
 const routes = [
     { path: '/', component: DataFlowPage },
+    { path: '/l1m1', component: L1M1Page },
     { path: '/l1m2', component: L1M2Page },
     { path: '/l2m2m1', component: L2M2M1Page },
     { path: '/l2m2m2', component: L2M2M2Page },
