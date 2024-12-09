@@ -49,6 +49,12 @@ export default {
             hotspots: [
                 // ...您的热点数据
                 {
+                    id: '4',
+                    shape: 'poly',
+                    coords: '74,455,382,455,398,451,401,441,406,439,406,427,408,413,408,298,403,288,398,282,393,277,384,275,75,274,65,275,56,279,51,285,47,292,46,429,49,439,58,449,66,454', // Y 坐标减去 15
+                    href: '/l1m1'
+                },
+                {
                     id: '1',
                     shape: 'poly',
                     coords: '75,844,383,844,399,840,402,830,407,828,407,816,409,802,409,687,404,677,399,671,394,666,385,664,76,663,66,664,57,668,52,674,48,681,47,818,50,828,59,838,67,843',
@@ -67,9 +73,10 @@ export default {
                     href: '/l1m4'
                 },
             ],
-            markdownText: `**流程图**
+            markdownText:
+`**流程图**
 
-![img](https://xcnxiwfp39pl.feishu.cn/space/api/box/stream/download/asynccode/?code=NDVmYjQ0YmI4MzRiNzQzMGJjOWQ5OTBiZjkzOWRjODRfZnJ0N1VxajZLb1dRQXJvUGF3aTQycVBsWGR6RFFhclZfVG9rZW46Q1V2cGJETkkxb3lUM0N4N1J0OGNjSXZwblBnXzE3MzM0NjUyMDY6MTczMzQ2ODgwNl9WNA)
+![img](https://s21.ax1x.com/2024/12/06/pA79Al6.png)
 
 **总览**
 
@@ -78,24 +85,38 @@ export default {
 **模块信息**
 
 - 连接模块
-  - > 接受外部操作对系统的请求，对操作请求进行预处理和分发，起系统逻辑控制作用。
+    
+    > 接受外部操作对系统的请求，对操作请求进行预处理和分发，起系统逻辑控制作用。
+
 - 查询模块
-  - > 完成操作请求在数据库中的分析处理和转化工作，最终实现物理存储介质中数据的操作。
+
+    > 完成操作请求在数据库中的分析处理和转化工作，最终实现物理存储介质中数据的操作。
+
 - 事务模块：
-  - > 负责存储和管理物理数据，提供对编译查询系统的支持。
+
+    > 负责存储和管理物理数据，提供对编译查询系统的支持。
+
 - 存储模块：
-  - > 完成对操作请求处理的事务一致性支持，提供对并发访问数据的一致性支持。
+
+    > 完成对操作请求处理的事务一致性支持，提供对并发访问数据的一致性支持。
 
 **数据流信息**
 
 - 日志
-  - > 写日志信息，日志恢复请求，如ereport。
+
+    > 写日志信息，日志恢复请求，如ereport。
+
 - 锁请求
-  - > 获取、释放锁请求。
+
+    > 获取、释放锁请求。
+
 - 事务指令
-  - > 调用事务模块相关处理函数，如BeginTransactionBlock、RequireTransactionBlock、RollbackToSavepoint等。
+
+    > 调用事务模块相关处理函数，如BeginTransactionBlock、RequireTransactionBlock、RollbackToSavepoint等。
+
 - 内存指令
-  - > 调用的内存模块相关处理函数，如AlterTable、DefineIndex、RemoveRelations等。
+    
+    > 调用的内存模块相关处理函数，如AlterTable、DefineIndex、RemoveRelations等。
             `,
             md: new MarkdownIt({
                 html: false,        // 禁用 HTML 解析

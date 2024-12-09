@@ -5,7 +5,7 @@
                 <div style="margin-bottom: 20px;"></div> <!-- 增加底部空白 -->
                 <div class="header-content">
                     <el-button type="info" @click="goBack" class="back-button">Back</el-button>
-                    <span class="text-large font-600 mr-3 title">L2M2M2(查询重写模块)</span>
+                    <span class="text-large font-600 mr-3 title">L1M1</span>
                 </div>
                 <div style="margin-top: 20px;"></div> <!-- 增加顶部空白 -->
             </el-header>
@@ -13,11 +13,6 @@
                 <div class="image-container">
                     <img id="mapAll" ref="mapAll" :src="imageSrc" usemap="#image-map"
                         style="width: 100%; height: 100%; object-fit: contain;" />
-                    <map name="image-map" id="image-map">
-                        <area v-for="hotspot in hotspots" :key="hotspot.id" :shape="hotspot.shape"
-                            :coords="hotspot.coords" :href="hotspot.href" @click.prevent="navigateTo(hotspot.href)"
-                            @mouseover="highlightHotspot(hotspot.id)" @mouseout="unhighlightHotspot(hotspot.id)" />
-                    </map>
                 </div>
                 <div style="margin-top: 30px;"></div> <!-- 增加顶部空白 -->
                 <el-steps style="max-width: 600px" :active="active" finish-status="success" align-center>
@@ -26,8 +21,8 @@
                     <el-step title="Step 3" />
                 </el-steps>
                 <el-button class="next-button" style="margin-top: 12px" @click="next">Next step</el-button>
-                <div v-html="compiledMarkdown" class="markdown-body"></div>
-                <!-- 圆角框，仅在 Step 1 完成时显示 -->
+               <div v-html="compiledMarkdown" class="markdown-body"></div>
+               <!-- 圆角框，仅在 Step 1 完成时显示 -->
                 <div v-if="active >= 1" class="rounded-box">
                     <div class="box-content">
                         <p>Some Text</p>
@@ -47,56 +42,45 @@ export default {
     data() {
         return {
             active: 0,
-            imageSrc: '/pictures/level2/L2M2M2.png', // 替换为您的图片路径
-            hotspots: [
-                {
-                    id: '1',
-                    shape: 'poly',
-                    coords: '9,103,188,102,199,98,204,94,205,80,204,16,201,7,195,4,192,1,16,1,7,3,4,6,1,19,1,90,3,97',
-                    href: '/l2m2m1'
-                },
-                {
-                    id: '2',
-                    shape: 'poly',
-                    coords: '675,720,854,719,865,715,870,711,871,697,870,633,867,624,861,621,858,618,682,618,673,620,670,623,667,636,667,707,669,714',
-                    href: '/l2m2m3'
-                },
-                // 更多热点区域...
-            ],
+            imageSrc: '/pictures/level1/L1M1.png',
             markdownText: 
 `**总览**
 
-> 根据已定义的规则对查询树进行重写
+>接受外部操作对系统的请求，对操作请求进行预处理和分发，起系统逻辑控制作用。
+
+**模块信息**
+
+- 守护进程postmaster
+    > 多用户模式下一个数据库实例由守护进程 Postmaster 来管理。它是一个运行在服务器上的总控进程，负责整个系统的启动和关闭，并且在服务进程出现错误时完成系统的恢复。它会为客户端连接请求 fork 一个 Postgres 服务进程，来代表客户端在数据库上执行各种命令。
+
+- 服务进程postgres
+    > Postgres进程是实际的接受查询请求并调用相应模块处理查询的服务进程。它直接接受用户的命令进行编译执行，并将结果返回给用户。如此循环，直到用户断开连接。
+
+- ReadCommand
+    \`\`\`C++
+    /* ----------------
+     *                ReadCommand 从前端或标准输入读取命令，如果文件结束，
+     *                将其放入 inBuf，并返回信息类型代码（信息的第一个字节）。
+     *                则返回 EOF。
+     * ----------------
+     */
+    static int
+    ReadCommand(StringInfo inBuf)
+    {
+            int                        result;
+
+            if (whereToSendOutput == DestRemote)
+                    result = SocketBackend(inBuf);
+            else
+                    result = InteractiveBackend(inBuf);
+            return result;
+    }
+    \`\`\`
 
 **数据流信息**
 
-- \`Query\`，查询结构体
-
-- 以List*结构体构建的 \`querytree_list\` 查询树链表，重写后可能变为0-N个查询树，因此变为链表
-
-**图内数据结构及重要节点展示：**
-
-- Query ：查询结构体，已在L2M2M1展示过\
-
-- querytree_list 实际上是List*, 节点内装入Query*，简单的链表结构
-
-- 入口函数：在此处将查询结构体区分为 \`utilitie\` (非数据检索任务，如数据定义\`CREATE TABLE\`等)和 非\`utilitie\`，前者不进行重写，统一数据结构后直接结束本模块
-
-- 查询结构体表生成器(\`list_make1\`)：主要功能是统一输出，将\`utilitie\`方向的输出从单个\`Query\`变为一个链表
-
-- 规则：查询重写的核心是规则系统，可以是通过CREATE RULE定义，也可以是“视图”(PG的视图实际上是定义了一个规则)。规则按命令分为 **SELECT/INSERT/UPDATE/DELETE**， 按动作分为**INSTEAD/ALSO**
-  
-    - INSTEAD将原来的操作替换，ALSO在原操作基础上额外做动作
-    
-    - SELECT规则为一个动作的无条件INSTEAD规则（安全性等诸多因素限制）
-    
-    - SELECT规则别称RIR规则，这是历史遗留，在古代（PostQUEL时代）的RETRIEVE对应于现在的SELECT，所以全称是\`RETRIEVE-INSTEAD-RULE\`
-
-- 非RIR规则应用：对INSERT/UPDATE/DELETE处理，主要调整CTE(\`Common\`**\` \`**\`Table\`**\` \`**\`Expressions\` 公用表表达式 / 临时结果集)和\`TargetList\`
-
-- RIR规则应用：对SELECT处理，调整RTE(\`Range Table\`范围表，可以是表或子查询)和CTE
-
-- 设置命令结果标签：标识出哪个\`Query\`是重写后查询的最终结果，即字段\`canSetTag\`
+- 用户命令
+    > 用户命令分为两种：一种是查询命令，即插人、删除、更新和选择四种命令。另一种是非查询命令，如创建/删除表、视图、索引等命令。
             `,
             md: new MarkdownIt({
                 html: false,        // 禁用 HTML 解析
