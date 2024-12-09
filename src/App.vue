@@ -13,13 +13,6 @@ export default {
 
 </script>
 <style>
-/* Reset 浏览器默认样式 */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 /* 使页面布局更加适应 */
 html,
 body {
@@ -91,9 +84,5 @@ canvas {
   background-color: #f0f0f0 !important;
   /* 表头使用浅灰色背景 */
   font-weight: bold;
-}
-
-.markdown-body td {
-  text-align: left;
 }
 </style>

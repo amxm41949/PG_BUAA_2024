@@ -41,7 +41,7 @@
 <script>
 import $ from 'jquery';
 import 'imagemapster';
-import MarkdownIt from 'markdown-it';
+// import MarkdownIt from 'markdown-it';
 
 export default {
     data() {
@@ -169,14 +169,6 @@ struct Path
 - 计划生成模块：细化路径（如确定扫描方法），生成足够详细的计划
 - 在整个查询规划结束后，N个输入的计划树产生的N个计划语句被打包为一个list运走
             `,
-            md: new MarkdownIt({
-                html: false,        // 禁用 HTML 解析
-                xhtmlOut: false,    // 禁用 XHTML 输出
-                breaks: false,      // 不自动将换行符转换为 <br> 标签
-                linkify: true,      // 自动链接 URL
-                typographer: true,  // 启用排版功能（如引号、破折号等自动转换）
-                validate: true      // 启用严格模式
-            })
         };
     },
     mounted() {
@@ -192,7 +184,7 @@ struct Path
     computed: {
         // 计算属性用于解析Markdown
         compiledMarkdown() {
-            return this.md.render(this.markdownText);
+            return this.$md.render(this.markdownText);
         }
     },
     methods: {
