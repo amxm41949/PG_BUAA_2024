@@ -149,17 +149,17 @@ export default {
 
 .image-container {
     position: relative;
-    width: 100%;
-    height: 100%;
+    width: 50%;
+    height: 50%;
     /* 设置容器高度为视口高度 */
     overflow: hidden;
     /* 防止图片超出容器范围 */
 }
 
 img {
-    width: 100%;
+    width: 30%;
     /* 宽度始终填满容器 */
-    height: 100%;
+    height: 30%;
     /* 高度始终填满容器 */
     object-fit: contain;
     /* 保持图片比例，同时确保不会超出容器 */

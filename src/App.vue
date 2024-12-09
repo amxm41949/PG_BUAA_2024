@@ -50,7 +50,7 @@ canvas {
 .markdown-body {
   box-sizing: border-box;
   min-width: 200px;
-  max-width: 1250px;
+  max-width: 100%;
   margin: 0 auto;
   padding: 45px;
   color: #333;
