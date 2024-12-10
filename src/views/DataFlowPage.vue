@@ -2,30 +2,45 @@
     <div class="common-layout">
         <el-container>
             <el-header>
-                <div style="margin-bottom: 20px;"></div> <!-- 增加底部空白 -->
                 <div class="header-content">
                     <span class="text-large font-600 mr-3 title">L0(系统总体结构)</span>
                 </div>
-                <div style="margin-top: 20px;"></div> <!-- 增加顶部空白 -->
             </el-header>
+
             <el-main>
-                <div class="image-container">
-                    <img id="mapAll" ref="mapAll" :src="imageSrc" usemap="#image-map"
-                        style="width: 100%; height: 100%; object-fit: contain;" />
-                    <map name="image-map" id="image-map">
-                        <area v-for="hotspot in hotspots" :key="hotspot.id" :shape="hotspot.shape"
-                            :coords="hotspot.coords" :href="hotspot.href" @click.prevent="navigateTo(hotspot.href)"
-                            @mouseover="highlightHotspot(hotspot.id)" @mouseout="unhighlightHotspot(hotspot.id)" />
-                    </map>
+                <!-- 使用 Flexbox 布局，使图片和Markdown内容分别位于两侧 -->
+                <div class="content-wrapper">
+                    <!-- 图像容器，左侧 -->
+                    <div class="image-container">
+                        <img id="mapAll" ref="mapAll" :src="imageSrc" usemap="#image-map" class="image" />
+                        <map name="image-map" id="image-map">
+                            <area v-for="hotspot in hotspots" :key="hotspot.id" :shape="hotspot.shape"
+                                :coords="hotspot.coords" :href="hotspot.href" @click.prevent="navigateTo(hotspot.href)"
+                                @mouseover="highlightHotspot(hotspot.id)" @mouseout="unhighlightHotspot(hotspot.id)" />
+                        </map>
+
+                        <!-- 步骤条，放置在图片下方 -->
+                        <div class="steps-container">
+                            <el-steps :active="active" finish-status="success" align-center
+                                style="max-width: 600px; width: 100%;">
+                                <el-step title="Step 1" />
+                                <el-step title="Step 2" />
+                                <el-step title="Step 3" />
+                            </el-steps>
+                        </div>
+
+                        <!-- Next Button，放置在图片下方 -->
+                        <el-button class="next-button" @click="next">
+                            Next step
+                        </el-button>
+                    </div>
+
+                    <!-- Markdown 内容容器，右侧 -->
+                    <div class="markdown-container">
+                        <div v-html="compiledMarkdown" class="markdown-body"></div>
+                    </div>
                 </div>
-                <div style="margin-top: 30px;"></div> <!-- 增加顶部空白 -->
-                <el-steps style="max-width: 600px" :active="active" finish-status="success" align-center>
-                    <el-step title="Step 1" />
-                    <el-step title="Step 2" />
-                    <el-step title="Step 3" />
-                </el-steps>
-                <el-button class="next-button" style="margin-top: 12px" @click="next">Next step</el-button>
-                <div v-html="compiledMarkdown" class="markdown-body"></div>
+
                 <!-- 圆角框，仅在 Step 1 完成时显示 -->
                 <div v-if="active >= 1" class="rounded-box">
                     <div class="box-content">
@@ -36,6 +51,7 @@
         </el-container>
     </div>
 </template>
+
 <script>
 import $ from 'jquery';
 import 'imagemapster';
@@ -74,65 +90,64 @@ export default {
                 },
             ],
             markdownText:
-`**流程图**
-
-![img](https://s21.ax1x.com/2024/12/06/pA79Al6.png)
-
-**总览**
-
-> PostgreSQL 数据库是一种几乎可以运行在各种平台上的免费开源对象关系数据库，它是一种以关系型数据库和 SQL 为基础，扩展了抽象数据类型，从而具备面向对象特性的数据库。PostgreSQL 数据库主要由连接模块、查询模块、存储模块、事务模块四部分组成。
-
-**模块信息**
-
-- 连接模块
-    
-    > 接受外部操作对系统的请求，对操作请求进行预处理和分发，起系统逻辑控制作用。
-
-- 查询模块
-
-    > 完成操作请求在数据库中的分析处理和转化工作，最终实现物理存储介质中数据的操作。
-
-- 事务模块：
-
-    > 负责存储和管理物理数据，提供对编译查询系统的支持。
-
-- 存储模块：
-
-    > 完成对操作请求处理的事务一致性支持，提供对并发访问数据的一致性支持。
-
-**数据流信息**
-
-- 日志
-
-    > 写日志信息，日志恢复请求，如ereport。
-
-- 锁请求
-
-    > 获取、释放锁请求。
-
-- 事务指令
-
-    > 调用事务模块相关处理函数，如BeginTransactionBlock、RequireTransactionBlock、RollbackToSavepoint等。
-
-- 内存指令
-    
-    > 调用的内存模块相关处理函数，如AlterTable、DefineIndex、RemoveRelations等。
-            `,
+                `**流程图**
+  
+  ![img](https://s21.ax1x.com/2024/12/06/pA79Al6.png)
+  
+  **总览**
+  
+  > PostgreSQL 数据库是一种几乎可以运行在各种平台上的免费开源对象关系数据库，它是一种以关系型数据库和 SQL 为基础，扩展了抽象数据类型，从而具备面向对象特性的数据库。PostgreSQL 数据库主要由连接模块、查询模块、存储模块、事务模块四部分组成。
+  
+  **模块信息**
+  
+  - 连接模块
+      
+      > 接受外部操作对系统的请求，对操作请求进行预处理和分发，起系统逻辑控制作用。
+  
+  - 查询模块
+  
+      > 完成操作请求在数据库中的分析处理和转化工作，最终实现物理存储介质中数据的操作。
+  
+  - 事务模块：
+  
+      > 负责存储和管理物理数据，提供对编译查询系统的支持。
+  
+  - 存储模块：
+  
+      > 完成对操作请求处理的事务一致性支持，提供对并发访问数据的一致性支持。
+  
+  **数据流信息**
+  
+  - 日志
+  
+      > 写日志信息，日志恢复请求，如ereport。
+  
+  - 锁请求
+  
+      > 获取、释放锁请求。
+  
+  - 事务指令
+  
+      > 调用事务模块相关处理函数，如BeginTransactionBlock、RequireTransactionBlock、RollbackToSavepoint等。
+  
+  - 内存指令
+      
+      > 调用的内存模块相关处理函数，如AlterTable、DefineIndex、RemoveRelations等。
+              `,
             md: new MarkdownIt({
-                html: false,        // 禁用 HTML 解析
-                xhtmlOut: false,    // 禁用 XHTML 输出
-                breaks: false,      // 不自动将换行符转换为 <br> 标签
-                linkify: true,      // 自动链接 URL
-                typographer: true,  // 启用排版功能（如引号、破折号等自动转换）
-                validate: true      // 启用严格模式
-            })
+                html: false,
+                xhtmlOut: false,
+                breaks: false,
+                linkify: true,
+                typographer: true,
+                validate: true,
+            }),
         };
     },
     computed: {
-        // 计算属性用于解析Markdown
         compiledMarkdown() {
             return this.md.render(this.markdownText);
-        }
+        },
     },
     methods: {
         next() {
@@ -153,96 +168,142 @@ export default {
     mounted() {
         $('#mapAll').mapster({
             fillColor: '1AC4F9',
-            strokeColor: "FFFFFF",
+            strokeColor: 'FFFFFF',
             strokeWidth: 3,
             fillOpacity: 0.6,
             singleSelect: true,
         });
-    }
+    },
 };
 </script>
 
 <style scoped>
 .common-layout {
-    height: 100%;
-    /* 使布局填满整个视口高度 */
+  height: 100%;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(135deg, #2a2a2a, #111111); /* 渐变灰黑色背景 */
+  color: #f0f0f0; /* 浅灰色文字 */
+  font-family: 'Roboto', sans-serif;
+}
+
+.content-wrapper {
+  display: flex;
+  justify-content: space-between; /* 图片和文字左右分布 */
+  align-items: stretch; /* 让两个容器的高度保持一致 */
+  gap: 20px; /* 图片和文字之间的间距 */
+  margin-top: 20px;
+  width: 100%;
 }
 
 .image-container {
-    position: relative;
-    width: 50%;
-    height: 50%;
-    /* 设置容器高度为视口高度 */
-    overflow: hidden;
-    /* 防止图片超出容器范围 */
+  width: 50%; /* 图片部分占一半宽度 */
+  display: flex;
+  flex-direction: column; /* 让图片和步骤排列成垂直布局 */
+  align-items: center; /* 水平居中对齐 */
+  position: relative;
+  height: 100%; /* 高度撑满父容器 */
 }
 
-img {
-    width: 30%;
-    /* 宽度始终填满容器 */
-    height: 30%;
-    /* 高度始终填满容器 */
-    object-fit: contain;
-    /* 保持图片比例，同时确保不会超出容器 */
+.image {
+  max-width: 100%;
+  max-height: 100vh; /* 限制最大高度，避免过大 */
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5); /* 增加阴影效果 */
+}
+
+.steps-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between; /* 将步骤均匀分布 */
+  margin-top: 20px; /* 步骤与图片之间的间距 */
+}
+
+.markdown-container {
+  width: 50%; /* 文字部分占一半宽度 */
+  max-height: 100vh; /* 设置最大高度 */
+  overflow-y: auto; /* 超出部分可滚动 */
+  padding: 20px;
+  border: 1px solid #444; /* 边框颜色为深灰色 */
+  border-radius: 8px;
+  background-color: #333; /* 深灰色背景 */
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5); /* 增加阴影效果 */
+  height: 100%; /* 高度撑满父容器 */
+}
+
+.markdown-container::-webkit-scrollbar {
+  width: 0; /* 不显示滚动条 */
+  height: 0;
 }
 
 .rounded-box {
-    position: absolute;
-    top: 20%;
-    /* 顶部偏移量 */
-    left: 30%;
-    /* 左边偏移量 */
-    width: 200px;
-    /* 圆角框宽度 */
-    height: 100px;
-    /* 圆角框高度 */
-    background-color: rgba(255, 255, 255, 0.5);
-    /* 半透明白色背景 */
-    border: 2px solid black;
-    /* 黑色边框 */
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  position: absolute;
+  top: 20%;
+  left: 30%;
+  width: 200px;
+  height: 100px;
+  background-color: rgba(255, 255, 255, 0.1); /* 半透明背景 */
+  border: 2px solid #666; /* 边框为浅灰色 */
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: pulse 1.5s infinite; /* 动画效果：轻微脉动 */
 }
 
 .box-content p {
-    margin: 0;
-    font-size: 16px;
-    color: black;
+  margin: 0;
+  font-size: 16px;
+  color: #e0e0e0; /* 浅灰色文字 */
 }
 
 .header-content {
-    display: flex;
-    align-items: center;
-    /* 垂直居中对齐 */
-    justify-content: flex-start;
-    gap: 10px;
-    /* 按钮与标题之间的间隔 */
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
 }
 
-
 .header-content .title {
-    font-size: 40px;
-    /* 增大标题的字体大小 */
-    font-weight: bold;
-    /* 设置标题为加粗 */
-    line-height: 40px;
-    /* 调整标题的垂直对齐 */
+  font-size: 40px;
+  font-weight: bold;
+  line-height: 40px;
+  color: #e0e0e0; /* 标题文字颜色 */
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5); /* 标题文字阴影效果 */
 }
 
 .next-button {
-    font-size: 22px;
-    /* 增大按钮文字的字体大小 */
-    padding: 15px 30px;
-    /* 增大按钮的内边距 */
-    height: 60px;
-    /* 设置按钮的高度 */
-    width: 200px;
-    /* 设置按钮的宽度 */
-    line-height: 60px;
-    /* 让文字垂直居中 */
-    border-radius: 5px;
-    /* 设置按钮的圆角 */
+  font-size: 22px;
+  padding: 15px 30px;
+  height: 60px;
+  width: 200px;
+  line-height: 60px;
+  border-radius: 5px;
+  margin-top: 20px;
+  background: linear-gradient(135deg, #ff6347, #ff4500); /* 渐变按钮背景 */
+  color: #fff;
+  border: none;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* 增加按钮阴影 */
+  transition: all 0.3s ease; /* 平滑过渡 */
+}
+
+.next-button:hover {
+  background: linear-gradient(135deg, #ff4500, #ff6347); /* 鼠标悬停时按钮背景渐变反转 */
+  transform: scale(1.1); /* 悬停时放大按钮 */
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 </style>
