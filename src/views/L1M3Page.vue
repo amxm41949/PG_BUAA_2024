@@ -5,7 +5,7 @@
           <div style="margin-bottom: 20px;"></div> <!-- 增加底部空白 -->
           <div class="header-content">
             <el-button type="info" @click="goBack" class="back-button">Back</el-button>
-            <span class="text-large font-600 mr-3 title">L1M5</span>
+            <span class="text-large font-600 mr-3 title">L1M3</span>
           </div>
           <div style="margin-top: 20px;"></div> <!-- 增加顶部空白 -->
         </el-header>
@@ -45,7 +45,7 @@
     data() {
       return {
         active: 0,
-        imageSrc: '/pictures/level1/L1M5.png', // 替换为您的图片路径
+        imageSrc: '/pictures/level1/L1M3.png', // 替换为您的图片路径
         hotspots: [
           {
             id: '1',

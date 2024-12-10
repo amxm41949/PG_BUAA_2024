@@ -3,7 +3,7 @@ import DataFlowPage from '../views/DataFlowPage.vue';
 import NextLevelPage from '../views/NextLevelPage.vue';
 import L1M1Page from '@/views/L1M1Page.vue';
 import L1M2Page from '@/views/L1M2Page.vue';
-import L1M5Page from '@/views/L1M5Page.vue';
+import L1M5Page from '@/views/L1M3Page.vue';
 import L2M2M1Page from '@/views/L2M2M1Page.vue';
 import L2M2M2Page from '@/views/L2M2M2Page.vue';
 import L2M2M3Page from '@/views/L2M2M3Page.vue';
