@@ -5,7 +5,7 @@
                 <div style="margin-bottom: 20px;"></div> <!-- 增加底部空白 -->
                 <div class="header-content">
                     <el-button type="info" @click="goBack" class="back-button">Back</el-button>
-                    <span class="text-large font-600 mr-3 title">L3M3M1M3(查询规划——预处理)</span>
+                    <span class="text-large font-600 mr-3 title">L3M3M1M3</span>
                 </div>
                 <div style="margin-top: 20px;"></div> <!-- 增加顶部空白 -->
             </el-header>
@@ -62,24 +62,10 @@ export default {
                     href: '/l3m2m3m2'
                 },
             ],
-            markdownText: `**总览**
-
-> 预处理和优化查询，生成规划信息用于路径生成，对应于代数优化
-
-**数据流信息**
-
-- 查询树链表的一个子查询(一棵查询树的一个查询节点，图中省略了for each)
-- 规划信息 \`PlannerInfo\`
-- 提升子链接与子查询：
-  - 子查询：完整语句，主要出现在FROM中
-  - 子链接：表达式，主要出现在WHERE中
-  - 举例展示此过程：
-    - 原始：\`select d.name from dept d where d.deptno in (select e.deptno from emp e where e.sal = 1000);\`
-    - 先提升子链接为子查询：\`select d.name from dept d (select e.deptno from emp e where e.sal = 1000) as sub where d.deptno = sub.deptno;\`
-    - 提升子查询：\`select d.name from dept d, emp e where d.deptno = e.deptno and e.sal = 1000;\`
-    - 显然，提升完成后比原意执行要高效得多
-- 范围表扫描与优化：遍历查询中的所有 RTE（如表、连接等），并检查是否存在外连接（简单地说，对于连接时不匹配的项，外连接保留，内连接不保留，内连接更省时间）等，进行优化。
-            `,
+            markdownText: `完成b索引树创建任务的顶层函数是btbuild。该函数流程为：
+- 在btbuild函数内部，首先执行_bt_spools_heapscan函数来扫描一个个的表元组然后把他们封装成一个个索引元组的数据结构(IndexTuple)。
+- 然后btbuild内部再调用_bt_leafbuild函数，并于其中调用tuplesort_performsort函数按照索引键值对索引元组进行排序为之后将他们一个个插入索引树上做准备。
+- 接着在_bt_leafbuild函数中循环调用_bt_load函数。_bt_load函数能将单个索引元组插入到树上对应的位置，那么循环调用这个函数就可以将所有的索引元组都插入到树上了。`,
             // md: new MarkdownIt({
             //     html: false,        // 禁用 HTML 解析
             //     xhtmlOut: false,    // 禁用 XHTML 输出
