@@ -61,58 +61,56 @@ export default {
                 },//连接管理模块
                 // 更多热点区域...
             ],
-            markdownText: `**总览**
+            markdownText: 
+`**总览**
 
 > 进行词法分析、语法分析和语义分析生成查询树，并且判断sql语句类型。
 
 **数据流信息**
 
 - 查询语句query_string
-
-> 用户发送的sql语句字符串
+    > 用户发送的sql语句字符串
 
 - 分析树parsetree_list
+    > 经过词法分析和语法分析生成的分析树parsetree_list，postgre单独定义了一种结构体List来存放这类数据：
 
-> 经过词法分析和语法分析生成的分析树parsetree_list，postgre单独定义了一种结构体List来存放这类数据：
-
-\`\`\`C++
-typedef union ListCell
- {
-   void     ptr_value;
-   int     int_value;
-   Oid     oid_value;
- } ListCell;
- 
- typedef struct List
- {
-*   NodeTag   type;     /* T_List, T_IntList, or T_OidList /
-*   int     length;     /* number of elements currently present /
-*   int     max_length;   /* allocated length of elements[] */
-   ListCell   elements;   / re-allocatable array of cells /
-*   /* We may allocate some cells along with the List header: /
-   ListCell  initial_elements[FLEXIBLE_ARRAY_MEMBER];
-*   /* If elements == initial_elements, it's not a separate allocation */
- } List;
-\`\`\`
+    \`\`\`C++
+    typedef union ListCell
+    {
+    void     ptr_value;
+    int     int_value;
+    Oid     oid_value;
+    } ListCell;
+    
+    typedef struct List
+    {
+    *   NodeTag   type;     /* T_List, T_IntList, or T_OidList /
+    *   int     length;     /* number of elements currently present /
+    *   int     max_length;   /* allocated length of elements[] */
+    ListCell   elements;   / re-allocatable array of cells /
+    *   /* We may allocate some cells along with the List header: /
+    ListCell  initial_elements[FLEXIBLE_ARRAY_MEMBER];
+    *   /* If elements == initial_elements, it's not a separate allocation */
+    } List;
+    \`\`\`
 
 - Query结构体
+    > 用来存放查询功能用到的关键属性，例如查询命令类型，查询范围等等，以便后续的查询重写和查询规划。
 
-> 用来存放查询功能用到的关键属性，例如查询命令类型，查询范围等等，以便后续的查询重写和查询规划。
-
-\`\`\`C++
- typedef struct Query
- {
-   NodeTag   type;
-   CmdType   commandType;  /* select|insert|update|delete|merge|utility /
-*   QuerySource querySource;  /* where did I come from? /
-*   int     resultRelation; /* rtable index of target relation for
-                  * INSERT/UPDATE/DELETE/MERGE; 0 for SELECT */
-   List     rtable;     / list of range table entries */
-   FromExpr   jointree;   / table join tree (FROM and WHERE clauses);
-                  * also USING clause for MERGE */
-   List     targetList;   / target list (of TargetEntry) */
- } Query;
-\`\`\`
+    \`\`\`C++
+    typedef struct Query
+    {
+    NodeTag   type;
+    CmdType   commandType;  /* select|insert|update|delete|merge|utility /
+    *   QuerySource querySource;  /* where did I come from? /
+    *   int     resultRelation; /* rtable index of target relation for
+                    * INSERT/UPDATE/DELETE/MERGE; 0 for SELECT */
+    List     rtable;     / list of range table entries */
+    FromExpr   jointree;   / table join tree (FROM and WHERE clauses);
+                    * also USING clause for MERGE */
+    List     targetList;   / target list (of TargetEntry) */
+    } Query;
+    \`\`\`
             `,
             md: new MarkdownIt({
                 html: false,        // 禁用 HTML 解析

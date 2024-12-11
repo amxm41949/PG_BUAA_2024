@@ -41,7 +41,6 @@
 <script>
 import $ from 'jquery';
 import 'imagemapster';
-import MarkdownIt from 'markdown-it';
 
 export default {
     data() {
@@ -81,20 +80,20 @@ export default {
     - 显然，提升完成后比原意执行要高效得多
 - 范围表扫描与优化：遍历查询中的所有 RTE（如表、连接等），并检查是否存在外连接（简单地说，对于连接时不匹配的项，外连接保留，内连接不保留，内连接更省时间）等，进行优化。
             `,
-            md: new MarkdownIt({
-                html: false,        // 禁用 HTML 解析
-                xhtmlOut: false,    // 禁用 XHTML 输出
-                breaks: false,      // 不自动将换行符转换为 <br> 标签
-                linkify: true,      // 自动链接 URL
-                typographer: true,  // 启用排版功能（如引号、破折号等自动转换）
-                validate: true      // 启用严格模式
-            })
+            // md: new MarkdownIt({
+            //     html: false,        // 禁用 HTML 解析
+            //     xhtmlOut: false,    // 禁用 XHTML 输出
+            //     breaks: false,      // 不自动将换行符转换为 <br> 标签
+            //     linkify: true,      // 自动链接 URL
+            //     typographer: true,  // 启用排版功能（如引号、破折号等自动转换）
+            //     validate: true      // 启用严格模式
+            // })
         };
     },
     computed: {
         // 计算属性用于解析Markdown
         compiledMarkdown() {
-            return this.md.render(this.markdownText);
+            return this.$md.render(this.markdownText);
         }
     },
     methods: {

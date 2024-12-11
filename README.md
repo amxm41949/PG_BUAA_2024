@@ -20,5 +20,5 @@ npm run build
 npm run lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### 更新日志
+yez@12/9/21：00 ：支持代码块高亮，实现方法见L2M2M3，解析器具体代码被隐藏，仅调用部分暴露

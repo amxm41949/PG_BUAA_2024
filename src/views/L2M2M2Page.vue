@@ -63,27 +63,39 @@ export default {
                 },
                 // 更多热点区域...
             ],
-            markdownText: `**总览**
+            markdownText: 
+`**总览**
 
 > 根据已定义的规则对查询树进行重写
 
 **数据流信息**
 
 - \`Query\`，查询结构体
+
 - 以List*结构体构建的 \`querytree_list\` 查询树链表，重写后可能变为0-N个查询树，因此变为链表
 
 **图内数据结构及重要节点展示：**
 
-- Query ：查询结构体，已在L2M2M1展示过
+- Query ：查询结构体，已在L2M2M1展示过\
+
 - querytree_list 实际上是List*, 节点内装入Query*，简单的链表结构
+
 - 入口函数：在此处将查询结构体区分为 \`utilitie\` (非数据检索任务，如数据定义\`CREATE TABLE\`等)和 非\`utilitie\`，前者不进行重写，统一数据结构后直接结束本模块
+
 - 查询结构体表生成器(\`list_make1\`)：主要功能是统一输出，将\`utilitie\`方向的输出从单个\`Query\`变为一个链表
-- 规则：查询重写的核心是规则系统，可以是通过CREATE RULE定义，也可以是“视图”(PG的视图实际上是定义了一个规则)。规则按命令分为**SELECT/INSERT/UPDATE/DELETE**， 按动作分为**INSTEAD/ALSO**
-  - INSTEAD将原来的操作替换，ALSO在原操作基础上额外做动作
-  - SELECT规则为一个动作的无条件INSTEAD规则（安全性等诸多因素限制）
-  - SELECT规则别称RIR规则，这是历史遗留，在古代（PostQUEL时代）的RETRIEVE对应于现在的SELECT，所以全称是\`RETRIEVE-INSTEAD-RULE\`
+
+- 规则：查询重写的核心是规则系统，可以是通过CREATE RULE定义，也可以是“视图”(PG的视图实际上是定义了一个规则)。规则按命令分为 **SELECT/INSERT/UPDATE/DELETE**， 按动作分为**INSTEAD/ALSO**
+  
+    - INSTEAD将原来的操作替换，ALSO在原操作基础上额外做动作
+    
+    - SELECT规则为一个动作的无条件INSTEAD规则（安全性等诸多因素限制）
+    
+    - SELECT规则别称RIR规则，这是历史遗留，在古代（PostQUEL时代）的RETRIEVE对应于现在的SELECT，所以全称是\`RETRIEVE-INSTEAD-RULE\`
+
 - 非RIR规则应用：对INSERT/UPDATE/DELETE处理，主要调整CTE(\`Common\`**\` \`**\`Table\`**\` \`**\`Expressions\` 公用表表达式 / 临时结果集)和\`TargetList\`
+
 - RIR规则应用：对SELECT处理，调整RTE(\`Range Table\`范围表，可以是表或子查询)和CTE
+
 - 设置命令结果标签：标识出哪个\`Query\`是重写后查询的最终结果，即字段\`canSetTag\`
             `,
             md: new MarkdownIt({
