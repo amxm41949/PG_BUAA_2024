@@ -30,6 +30,7 @@ const routes = [
     { path: '/l2m2m2', component: L2M2M2Page },
     { path: '/l2m2m3', component: L2M2M3Page },
     { path: '/l2m2m4', component: L2M2M4Page },
+    { path: '/l2m3m1', component: L2M3M1Page },
     { path: '/l3m2m3m1', component: L3M2M3M1Page },
     { path: '/l3m2m3m2', component: L3M2M3M2Page },
     { path: '/l3m2m3m3', component: L3M2M3M3Page },
