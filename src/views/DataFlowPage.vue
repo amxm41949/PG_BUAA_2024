@@ -1,7 +1,7 @@
 <template>
     <div class="common-layout">
         <el-container>
-            <el-header style="padding-left: 10px;">
+            <el-header style="align-content: center;">
                 <div class="header-content">
                     <span class="text-large font-600 mr-3 title">L0(系统总体结构)</span>
                 </div>
@@ -313,7 +313,6 @@ export default {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    gap: 10px;
 }
 
 .header-content .title {
