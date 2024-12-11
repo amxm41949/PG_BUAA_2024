@@ -5,25 +5,27 @@
         <div style="margin-bottom: 20px;"></div> <!-- 增加底部空白 -->
         <div class="header-content">
           <el-button type="info" @click="goBack" class="back-button">Back</el-button>
-          <span class="text-large font-600 mr-3 title">L2M4M3</span>
+          <span class="text-large font-600 mr-3 title">L1M4(事务模块)</span>
         </div>
         <div style="margin-top: 20px;"></div> <!-- 增加顶部空白 -->
       </el-header>
       <el-main>
         <div class="image-container">
           <img id="mapAll" ref="mapAll" :src="imageSrc" usemap="#image-map"
-               style="width: 100%; height: 100%; object-fit: contain;" />
+               style="width: 100%; height: 100%; object-fit: contain;"/>
           <map name="image-map" id="image-map">
             <area v-for="hotspot in hotspots" :key="hotspot.id" :shape="hotspot.shape"
-                  :coords="hotspot.coords" :href="hotspot.href" @click.prevent="navigateTo(hotspot.href)"
-                  @mouseover="highlightHotspot(hotspot.id)" @mouseout="unhighlightHotspot(hotspot.id)" />
+                  :coords="hotspot.coords" :href="hotspot.href"
+                  @click.prevent="navigateTo(hotspot.href)"
+                  @mouseover="highlightHotspot(hotspot.id)"
+                  @mouseout="unhighlightHotspot(hotspot.id)"/>
           </map>
         </div>
         <div style="margin-top: 30px;"></div> <!-- 增加顶部空白 -->
         <el-steps style="max-width: 600px" :active="active" finish-status="success" align-center>
-          <el-step title="Step 1" />
-          <el-step title="Step 2" />
-          <el-step title="Step 3" />
+          <el-step title="Step 1"/>
+          <el-step title="Step 2"/>
+          <el-step title="Step 3"/>
         </el-steps>
         <el-button class="next-button" style="margin-top: 12px" @click="next">Next step</el-button>
         <div v-html="compiledMarkdown" class="markdown-body"></div>
@@ -47,44 +49,77 @@ export default {
   data() {
     return {
       active: 0,
-      imageSrc: '/pictures/level2/L2M4M3.png', // 替换为您的图片路径
+      imageSrc: '/pictures/level1/L1M4.png', // 替换为您的图片路径
       hotspots: [
         {
-          id: '1',
+          id: '1', //事务管理器
           shape: 'poly',
-          coords: '356,335,357,413,359,422,362,423,365,427,371,429,549,429,555,428,561,425,564,417,566,415,567,338,565,332,561,326,556,325,371,322,363,328,359,327',
-          href: '/l2m2m1'
+          coords:
+              '580,85, ' +
+              '810,85, ' +
+              '810,200, ' +
+              '580,200',
+          href: '/l2m4m1'
         },
         {
-          id: '2',
+          id: '2', //日志管理器
           shape: 'poly',
-          coords: '355,559,356,637,358,646,361,647,364,651,370,653,548,653,554,652,560,649,563,641,565,639,566,562,564,556,560,550,555,549,370,546,362,552,358,551',
-          href: '/l2m2m2'
+          coords:
+              '580,300, ' +
+              '810,300, ' +
+              '810,415, ' +
+              '580,415',
+          href: '/l2m4m2'
         },
         {
-          id: '3',
+          id: '3', // 锁管理器
           shape: 'poly',
-          coords: '882,429,1117,429,1125,427,1131,420,1131,415,1133,408,1133,336,1129,326,1122,322,881,322,872,326,869,333,866,348,868,413,872,422,876,425',
-          href: '/l2m2m3'
+          coords:
+              '990,85, ' +
+              '1220,85, ' +
+              '1220,200, ' +
+              '990,200',
+          href: '/l2m4m3'
         },
         {
           id: '4',
           shape: 'poly',
-          coords: '881,653,1116,653,1124,651,1130,644,1130,639,1132,632,1132,560,1128,550,1121,546,880,546,871,550,868,557,865,572,867,637,871,646,875,649',
+          coords:
+              '20,85, ' +
+              '250,85, ' +
+              '250,200, ' +
+              '20,200',
           href: '/l2m2m4'
         },
         {
           id: '5',
           shape: 'poly',
-          coords: '0,796,1,874,3,883,6,884,9,888,15,890,193,890,199,889,205,886,208,878,210,876,211,799,209,793,205,787,200,786,15,783,7,789,3,788',
-          href: '/next-level/4'
-        },//存储模块
-        // 更多热点区域...
+          coords:
+              '580,520, ' +
+              '810,520, ' +
+              '810,635, ' +
+              '580,635',
+          href: '/l1m3'
+        },
       ],
-      markdownText: `**总览**
+      markdownText:
+          `**总览**
 
-> 接受各个模块的获取、释放锁请求。
-            `,
+本模块主要与编译执行模块进行交互，包含三个子模块：
+
+- 事务管理器：
+
+> 管理事务状态，调动其他模块，是事务管理模块的心脏。
+
+- 锁管理模块：
+
+> 管理锁的使用，包括进程管理器，MVCC并发控制。
+
+- 日志管理器：
+
+> 管理日志的写入，包括数据库历史恢复。
+
+      `,
       md: new MarkdownIt({
         html: false,        // 禁用 HTML 解析
         xhtmlOut: false,    // 禁用 XHTML 输出

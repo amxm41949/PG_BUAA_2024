@@ -5,7 +5,7 @@
         <div style="margin-bottom: 20px;"></div> <!-- 增加底部空白 -->
         <div class="header-content">
           <el-button type="info" @click="goBack" class="back-button">Back</el-button>
-          <span class="text-large font-600 mr-3 title">L2M4M2</span>
+          <span class="text-large font-600 mr-3 title">L2M4M3(锁管理器)</span>
         </div>
         <div style="margin-top: 20px;"></div> <!-- 增加顶部空白 -->
       </el-header>
@@ -47,7 +47,7 @@ export default {
   data() {
     return {
       active: 0,
-      imageSrc: '/pictures/level2/L2M4M2.png', // 替换为您的图片路径
+      imageSrc: '/pictures/level2/L2M4M3.png', // 替换为您的图片路径
       hotspots: [
         {
           id: '1',
@@ -83,28 +83,8 @@ export default {
       ],
       markdownText: `**总览**
 
-- 执行日志
-
-> 写入以及需要时执行日志内容的恢复。
-
-- 输入：
-
-> 来自各个模块的写日志信息，需要恢复的请求。
-
-- 日志数据结构：
-
-    typedef struct XLogRecord
-    {
-        uint32      xl_tot_len;     /* 日志长度 */
-        TransactionId xl_xid;       /* 事务ID */
-        XLogRecPtr  xl_prev;        /* 指向上一条日志 */
-        uint8       xl_info;        /* flag bits, see below */
-        RmgrId      xl_rmid;        /* 日志记录对应的资源管理器 */
-        pg_crc32c   xl_crc;         /* CRC for this record */
-        /* 跟随有 XLogRecordBlockHeaders 和 XLogRecordDataHeader */
-    } XLogRecord;
-
-      `,
+> 接受各个模块的获取、释放锁请求。
+            `,
       md: new MarkdownIt({
         html: false,        // 禁用 HTML 解析
         xhtmlOut: false,    // 禁用 XHTML 输出

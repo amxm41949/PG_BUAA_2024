@@ -5,18 +5,18 @@
         <div style="margin-bottom: 20px;"></div> <!-- 增加底部空白 -->
         <div class="header-content">
           <el-button type="info" @click="goBack" class="back-button">Back</el-button>
-          <span class="text-large font-600 mr-3 title">L2M4M1</span>
+          <span class="text-large font-600 mr-3 title">L1M4M2(日志管理器)</span>
         </div>
         <div style="margin-top: 20px;"></div> <!-- 增加顶部空白 -->
       </el-header>
       <el-main>
         <div class="image-container">
           <img id="mapAll" ref="mapAll" :src="imageSrc" usemap="#image-map"
-            style="width: 100%; height: 100%; object-fit: contain;" />
+               style="width: 100%; height: 100%; object-fit: contain;" />
           <map name="image-map" id="image-map">
-            <area v-for="hotspot in hotspots" :key="hotspot.id" :shape="hotspot.shape" :coords="hotspot.coords"
-              :href="hotspot.href" @click.prevent="navigateTo(hotspot.href)" @mouseover="highlightHotspot(hotspot.id)"
-              @mouseout="unhighlightHotspot(hotspot.id)" />
+            <area v-for="hotspot in hotspots" :key="hotspot.id" :shape="hotspot.shape"
+                  :coords="hotspot.coords" :href="hotspot.href" @click.prevent="navigateTo(hotspot.href)"
+                  @mouseover="highlightHotspot(hotspot.id)" @mouseout="unhighlightHotspot(hotspot.id)" />
           </map>
         </div>
         <div style="margin-top: 30px;"></div> <!-- 增加顶部空白 -->
@@ -26,6 +26,7 @@
           <el-step title="Step 3" />
         </el-steps>
         <el-button class="next-button" style="margin-top: 12px" @click="next">Next step</el-button>
+        <div v-html="compiledMarkdown" class="markdown-body"></div>
         <!-- 圆角框，仅在 Step 1 完成时显示 -->
         <div v-if="active >= 1" class="rounded-box">
           <div class="box-content">
@@ -40,36 +41,78 @@
 <script>
 import $ from 'jquery';
 import 'imagemapster';
+import MarkdownIt from 'markdown-it';
 
 export default {
   data() {
     return {
       active: 0,
-      imageSrc: '/pictures/level2/L2M4M1.png', // 替换为您的图片路径
+      imageSrc: '/pictures/level2/L2M4M2.png', // 替换为您的图片路径
       hotspots: [
         {
           id: '1',
           shape: 'poly',
-          coords:
-            '408,15, 594,15, 600,18, 606,18, 606,115 ,601,116, 590,120, 410,120, 400,118, 396,111, 393,106, 393,26, 400,18',
-          href: '/next-level/1'
+          coords: '356,335,357,413,359,422,362,423,365,427,371,429,549,429,555,428,561,425,564,417,566,415,567,338,565,332,561,326,556,325,371,322,363,328,359,327',
+          href: '/l2m2m1'
         },
         {
           id: '2',
           shape: 'poly',
-          coords:
-            '408,715, 594,715, 600,718, 606,718, 606,815 ,601,816, 590,820, 410,820, 400,818, 396,811, 393,806, 393,726, 400,718',
-          href: '/next-level/2'
+          coords: '355,559,356,637,358,646,361,647,364,651,370,653,548,653,554,652,560,649,563,641,565,639,566,562,564,556,560,550,555,549,370,546,362,552,358,551',
+          href: '/l2m2m2'
         },
-        // {
-        //   id: '3',
-        //   shape: 'poly',
-        //   coords:
-        //       '520,345, 760,345, 770,345, 780,355, 780,465, 770,475, 520,475, 510,465, 510,355',
-        //   href: '/next-level/2'
-        // },
+        {
+          id: '3',
+          shape: 'poly',
+          coords: '882,429,1117,429,1125,427,1131,420,1131,415,1133,408,1133,336,1129,326,1122,322,881,322,872,326,869,333,866,348,868,413,872,422,876,425',
+          href: '/l2m2m3'
+        },
+        {
+          id: '4',
+          shape: 'poly',
+          coords: '881,653,1116,653,1124,651,1130,644,1130,639,1132,632,1132,560,1128,550,1121,546,880,546,871,550,868,557,865,572,867,637,871,646,875,649',
+          href: '/l2m2m4'
+        },
+        {
+          id: '5',
+          shape: 'poly',
+          coords: '0,796,1,874,3,883,6,884,9,888,15,890,193,890,199,889,205,886,208,878,210,876,211,799,209,793,205,787,200,786,15,783,7,789,3,788',
+          href: '/next-level/4'
+        },//存储模块
         // 更多热点区域...
       ],
+      markdownText: `**总览**
+
+- 执行日志
+
+> 写入以及需要时执行日志内容的恢复。
+
+- 输入：
+
+> 来自各个模块的写日志信息，需要恢复的请求。
+
+- 日志数据结构：
+
+    typedef struct XLogRecord
+    {
+        uint32      xl_tot_len;     /* 日志长度 */
+        TransactionId xl_xid;       /* 事务ID */
+        XLogRecPtr  xl_prev;        /* 指向上一条日志 */
+        uint8       xl_info;        /* flag bits, see below */
+        RmgrId      xl_rmid;        /* 日志记录对应的资源管理器 */
+        pg_crc32c   xl_crc;         /* CRC for this record */
+        /* 跟随有 XLogRecordBlockHeaders 和 XLogRecordDataHeader */
+    } XLogRecord;
+
+      `,
+      md: new MarkdownIt({
+        html: false,        // 禁用 HTML 解析
+        xhtmlOut: false,    // 禁用 XHTML 输出
+        breaks: false,      // 不自动将换行符转换为 <br> 标签
+        linkify: true,      // 自动链接 URL
+        typographer: true,  // 启用排版功能（如引号、破折号等自动转换）
+        validate: true      // 启用严格模式
+      })
     };
   },
   mounted() {
@@ -81,6 +124,12 @@ export default {
       fillOpacity: 0.6,
       singleSelect: true,
     });
+  },
+  computed: {
+    // 计算属性用于解析Markdown
+    compiledMarkdown() {
+      return this.md.render(this.markdownText);
+    }
   },
   methods: {
     next() {
