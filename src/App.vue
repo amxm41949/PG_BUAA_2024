@@ -37,7 +37,7 @@ body {
   min-height: 100vh;
   background: linear-gradient(135deg, #2a2a2a, #111111);
   color: #e0e0e0; /* 浅灰文字 */
-  padding: 20px;
+  padding: 10px;
 }
 
 /* 图片或canvas居中样式 */

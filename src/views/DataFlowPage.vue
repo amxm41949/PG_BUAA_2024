@@ -1,13 +1,13 @@
 <template>
     <div class="common-layout">
         <el-container>
-            <el-header>
+            <el-header style="padding-left: 10px;">
                 <div class="header-content">
                     <span class="text-large font-600 mr-3 title">L0(系统总体结构)</span>
                 </div>
             </el-header>
 
-            <el-main>
+            <el-main style="padding: 10px;">
                 <!-- 使用 Flexbox 布局，使图片和Markdown内容分别位于两侧 -->
                 <div class="content-wrapper">
                     <!-- 图像容器，左侧 -->
@@ -19,20 +19,18 @@
                                 @mouseover="highlightHotspot(hotspot.id)" @mouseout="unhighlightHotspot(hotspot.id)" />
                         </map>
 
-                        <!-- 步骤条，放置在图片下方 -->
-                        <div class="steps-container">
-                            <el-steps :active="active" finish-status="success" align-center
-                                style="max-width: 600px; width: 100%;">
+                        <!-- 步骤条和按钮放到同一个容器 -->
+                        <div class="steps-button-container">
+                            <el-steps :active="active" finish-status="success" align-center style="width: 100%;">
                                 <el-step title="Step 1" />
                                 <el-step title="Step 2" />
                                 <el-step title="Step 3" />
                             </el-steps>
-                        </div>
 
-                        <!-- Next Button，放置在图片下方 -->
-                        <el-button class="next-button" @click="next">
-                            Next step
-                        </el-button>
+                            <el-button class="next-button" style="margin-top: 20px;" @click="next">
+                                Next step
+                            </el-button>
+                        </div>
                     </div>
 
                     <!-- Markdown 内容容器，右侧 -->
@@ -178,132 +176,168 @@ export default {
 </script>
 
 <style scoped>
+/* 炫酷暗黑主题 */
 .common-layout {
-  height: 100%;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: linear-gradient(135deg, #2a2a2a, #111111); /* 渐变灰黑色背景 */
-  color: #f0f0f0; /* 浅灰色文字 */
-  font-family: 'Roboto', sans-serif;
+    height: 100%;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(135deg, #2a2a2a, #111111);
+    /* 渐变灰黑色背景 */
+    color: #f0f0f0;
+    /* 浅灰色文字 */
+    font-family: 'Roboto', sans-serif;
 }
 
 .content-wrapper {
-  display: flex;
-  justify-content: space-between; /* 图片和文字左右分布 */
-  align-items: stretch; /* 让两个容器的高度保持一致 */
-  gap: 20px; /* 图片和文字之间的间距 */
-  margin-top: 20px;
-  width: 100%;
+    display: flex;
+    justify-content: space-between;
+    /* 图片和文字左右分布 */
+    align-items: flex-start;
+    gap: 20px;
+    /* 图片和文字之间的间距 */
+    margin-top: 20px;
+    width: 100%;
 }
 
 .image-container {
-  width: 50%; /* 图片部分占一半宽度 */
-  display: flex;
-  flex-direction: column; /* 让图片和步骤排列成垂直布局 */
-  align-items: center; /* 水平居中对齐 */
-  position: relative;
-  height: 100%; /* 高度撑满父容器 */
+    width: 50%;
+    /* 图片部分占一半宽度 */
+    display: flex;
+    flex-direction: column;
+    /* 让图片和步骤排列成垂直布局 */
+    align-items: center;
+    /* 水平居中对齐 */
+    position: relative;
 }
 
 .image {
-  max-width: 100%;
-  max-height: 100vh; /* 限制最大高度，避免过大 */
-  object-fit: contain;
-  border-radius: 12px;
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5); /* 增加阴影效果 */
+    max-width: 100%;
+    max-height: 100vh;
+    /* 限制最大高度，避免过大 */
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
+    /* 增加阴影效果 */
 }
 
-.steps-container {
-  width: 100%;
-  display: flex;
-  justify-content: space-between; /* 将步骤均匀分布 */
-  margin-top: 20px; /* 步骤与图片之间的间距 */
-}
-
-.markdown-container {
-  width: 50%; /* 文字部分占一半宽度 */
-  max-height: 100vh; /* 设置最大高度 */
-  overflow-y: auto; /* 超出部分可滚动 */
-  padding: 20px;
-  border: 1px solid #444; /* 边框颜色为深灰色 */
-  border-radius: 8px;
-  background-color: #333; /* 深灰色背景 */
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5); /* 增加阴影效果 */
-  height: 100%; /* 高度撑满父容器 */
-}
-
-.markdown-container::-webkit-scrollbar {
-  width: 0; /* 不显示滚动条 */
-  height: 0;
-}
-
-.rounded-box {
-  position: absolute;
-  top: 20%;
-  left: 30%;
-  width: 200px;
-  height: 100px;
-  background-color: rgba(255, 255, 255, 0.1); /* 半透明背景 */
-  border: 2px solid #666; /* 边框为浅灰色 */
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: pulse 1.5s infinite; /* 动画效果：轻微脉动 */
-}
-
-.box-content p {
-  margin: 0;
-  font-size: 16px;
-  color: #e0e0e0; /* 浅灰色文字 */
-}
-
-.header-content {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 10px;
-}
-
-.header-content .title {
-  font-size: 40px;
-  font-weight: bold;
-  line-height: 40px;
-  color: #e0e0e0; /* 标题文字颜色 */
-  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5); /* 标题文字阴影效果 */
+.steps-button-container {
+    width: 100%;
+    background: linear-gradient(135deg, #2d2d2d, #272727);
+    /* 渐变效果 */
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
 }
 
 .next-button {
-  font-size: 22px;
-  padding: 15px 30px;
-  height: 60px;
-  width: 200px;
-  line-height: 60px;
-  border-radius: 5px;
-  margin-top: 20px;
-  background: linear-gradient(135deg, #ff6347, #ff4500); /* 渐变按钮背景 */
-  color: #fff;
-  border: none;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* 增加按钮阴影 */
-  transition: all 0.3s ease; /* 平滑过渡 */
+    font-size: 22px;
+    padding: 15px 30px;
+    height: 60px;
+    width: 200px;
+    line-height: 60px;
+    border-radius: 5px;
+    background: linear-gradient(135deg, #4e5d6b, #3c444e);
+    /* 渐变按钮背景：深灰蓝色到深灰色 */
+    color: #f0f0f0;
+    /* 浅灰色文字，确保在暗黑背景下清晰可见 */
+    border: none;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    /* 增加按钮阴影，增强立体感 */
+    transition: all 0.3s ease;
+    /* 平滑过渡效果 */
 }
 
 .next-button:hover {
-  background: linear-gradient(135deg, #ff4500, #ff6347); /* 鼠标悬停时按钮背景渐变反转 */
-  transform: scale(1.1); /* 悬停时放大按钮 */
+    background: linear-gradient(135deg, #3c444e, #4e5d6b);
+    /* 鼠标悬停时按钮背景渐变反转 */
+    transform: scale(1.05);
+    /* 悬停时按钮略微放大 */
 }
 
+.markdown-container {
+    width: 50%;
+    /* 文字部分占一半宽度 */
+    max-height: 100vh;
+    /* 设置最大高度 */
+    overflow-y: auto;
+    /* 超出部分可滚动 */
+    padding: 20px;
+    border: 1px solid #444;
+    /* 边框颜色为深灰色 */
+    border-radius: 8px;
+    background-color: #333;
+    /* 深灰色背景 */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
+    /* 增加阴影效果 */
+}
+
+.markdown-container::-webkit-scrollbar {
+    width: 0;
+    /* 不显示滚动条 */
+    height: 0;
+}
+
+.rounded-box {
+    position: absolute;
+    top: 20%;
+    left: 30%;
+    width: 200px;
+    height: 100px;
+    background-color: rgba(255, 255, 255, 0.1);
+    /* 半透明背景 */
+    border: 2px solid #666;
+    /* 边框为浅灰色 */
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: pulse 1.5s infinite;
+    /* 动画效果：轻微脉动 */
+}
+
+.box-content p {
+    margin: 0;
+    font-size: 16px;
+    color: #e0e0e0;
+    /* 浅灰色文字 */
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+.header-content .title {
+    font-size: 40px;
+    font-weight: bold;
+    line-height: 40px;
+    color: #e0e0e0;
+    /* 标题文字颜色 */
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    /* 标题文字阴影效果 */
+}
+
+
 @keyframes pulse {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-  100% {
-    transform: scale(1);
-  }
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 </style>
