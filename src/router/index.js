@@ -12,7 +12,7 @@ import L2M3M1Page from '@/views/L2M3M1Page.vue';
 import L3M2M3M1Page from '@/views/L3M2M3M1Page.vue';
 import L3M2M3M2Page from '@/views/L3M2M3M2Page.vue';
 import L3M2M3M3Page from '@/views/L3M2M3M3Page.vue';
-import L3M3M3M1Page from '@/views/L3M3M1M1Page.vue';
+import L3M3M1M1Page from '@/views/L3M3M1M1Page.vue';
 import L3M3M1M2Page from '@/views/L3M3M1M2Page.vue';
 import L3M3M1M3Page from '@/views/L3M3M1M3Page.vue';
 import L4M2M3M2M1Page from '@/views/L4M2M3M2M1Page.vue';
@@ -34,6 +34,9 @@ const routes = [
     { path: '/l3m2m3m1', component: L3M2M3M1Page },
     { path: '/l3m2m3m2', component: L3M2M3M2Page },
     { path: '/l3m2m3m3', component: L3M2M3M3Page },
+    { path: '/l3m3m1m1', component: L3M3M1M1Page },
+    { path: '/l3m3m1m2', component: L3M3M1M2Page },
+    { path: '/l3m3m1m3', component: L3M3M1M3Page },
     { path: '/l4m2m3m2m1', component: L4M2M3M2M1Page },
     { path: '/l1m4', component: L1M4Page },
     { path: '/l2m4m1', component: L2M4M1Page },
