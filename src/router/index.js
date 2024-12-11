@@ -3,9 +3,8 @@ import DataFlowPage from '../views/DataFlowPage.vue';
 import NextLevelPage from '../views/NextLevelPage.vue';
 import L1M1Page from '@/views/M1/L1M1Page.vue';
 import L1M2Page from '@/views/M2/L1M2Page.vue';
-import L1M3Page from "@/views/M3/L1M3Page.vue";
 import L1M4Page from "@/views/M4/L1M4Page.vue";
-import L1M5Page from '@/views/M3/L1M3Page.vue';
+import L1M3Page from '@/views/M3/L1M3Page.vue';
 import L2M2M1Page from '@/views/M2/L2M2M1Page.vue';
 import L2M2M2Page from '@/views/M2/L2M2M2Page.vue';
 import L2M2M3Page from '@/views/M2/L2M2M3Page.vue';
@@ -33,7 +32,6 @@ const routes = [
     { path: '/l1m2', component: L1M2Page },
     { path: '/l1m3', component: L1M3Page},
     { path: '/l1m4', component: L1M4Page },
-    { path: '/l1m5', component: L1M5Page },
     { path: '/l2m2m1', component: L2M2M1Page },
     { path: '/l2m2m2', component: L2M2M2Page },
     { path: '/l2m2m3', component: L2M2M3Page },
