@@ -46,7 +46,7 @@ export default {
     data() {
         return {
             active: 0,
-            imageSrc: '/pictures/level3/L3M3M1M1.png', // 替换为您的图片路径
+            imageSrc: '/pictures/level3/L3M5M1M1.png', // 替换为您的图片路径
             hotspots: [
                 // ...您的热点数据
                 {
