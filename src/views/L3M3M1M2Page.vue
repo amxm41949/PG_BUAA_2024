@@ -5,7 +5,7 @@
                 <div style="margin-bottom: 20px;"></div> <!-- 增加底部空白 -->
                 <div class="header-content">
                     <el-button type="info" @click="goBack" class="back-button">Back</el-button>
-                    <span class="text-large font-600 mr-3 title">L3M3M1M2(查询规划——预处理)</span>
+                    <span class="text-large font-600 mr-3 title">L3M3M1M2</span>
                 </div>
                 <div style="margin-top: 20px;"></div> <!-- 增加顶部空白 -->
             </el-header>
@@ -62,24 +62,10 @@ export default {
                     href: '/l3m2m3m2'
                 },
             ],
-            markdownText: `**总览**
-
-> 预处理和优化查询，生成规划信息用于路径生成，对应于代数优化
-
-**数据流信息**
-
-- 查询树链表的一个子查询(一棵查询树的一个查询节点，图中省略了for each)
-- 规划信息 \`PlannerInfo\`
-- 提升子链接与子查询：
-  - 子查询：完整语句，主要出现在FROM中
-  - 子链接：表达式，主要出现在WHERE中
-  - 举例展示此过程：
-    - 原始：\`select d.name from dept d where d.deptno in (select e.deptno from emp e where e.sal = 1000);\`
-    - 先提升子链接为子查询：\`select d.name from dept d (select e.deptno from emp e where e.sal = 1000) as sub where d.deptno = sub.deptno;\`
-    - 提升子查询：\`select d.name from dept d, emp e where d.deptno = e.deptno and e.sal = 1000;\`
-    - 显然，提升完成后比原意执行要高效得多
-- 范围表扫描与优化：遍历查询中的所有 RTE（如表、连接等），并检查是否存在外连接（简单地说，对于连接时不匹配的项，外连接保留，内连接不保留，内连接更省时间）等，进行优化。
-            `,
+            markdownText: `索引查询的顶层函数为index_get_next_tid。该函数作用为返回B树上下一个符合查询条件的索引元组。具体逻辑如下：
+- 调用btgettuple函数，开始主干逻辑的执行。
+- 若btgettuple函数第一次被调用，则执行_bt_first函数。_bt_first函数首先依据查询条件构建扫描键，遍历b树，拿这个扫描键来不断和树上索引元组的键值进行比较，从而决定是要往什么样的方向（向右移还是向下移）去向目标页面靠近。_bt_search负责找到目标页面，而_bt_binsrch函数会在目标页面内二分查找，找到目标页面内符合查询条件的第一个索引元组的偏移offnum。在之后，_bt_first会调用_bt_readpage函数从上一步得到的第一个位置开始往后遍历，将当前页面后面的所有符合查询条件的索引元组全部保存下来，并记录当前的偏移量为0。
+- 若btgettuple函数不是头一次调用，则直接将上一步中的存储的索引元组的偏移量+1， 即可直接获取到下一个符合条件的索引元组。`,
             // md: new MarkdownIt({
             //     html: false,        // 禁用 HTML 解析
             //     xhtmlOut: false,    // 禁用 XHTML 输出
