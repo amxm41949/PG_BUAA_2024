@@ -107,6 +107,16 @@ canvas {
   /* 表头左对齐 */
 }
 
+/* 引用样式 */
+.markdown-body blockquote {
+  color: #dcdcdc;
+  /* 修改引用字体为较亮的灰色 */
+  border-left: 4px solid #4caf50;
+  /* 引用边框颜色 */
+  padding-left: 15px;
+  margin: 10px 0;
+}
+
 /* 链接样式 */
 .markdown-body a {
   color: #4caf50;

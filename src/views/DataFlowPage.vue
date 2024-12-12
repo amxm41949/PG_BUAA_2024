@@ -156,7 +156,7 @@ export default {
         },
         highlightHotspot(id) {
             const $map = $('#mapAll');
-            $map.mapster('', true, id); // 高亮显示热点
+            $map.mapster('highlight', true, id); // 高亮显示热点
         },
         unhighlightHotspot(id) {
             const $map = $('#mapAll');
@@ -170,6 +170,7 @@ export default {
             strokeWidth: 3,
             fillOpacity: 0.6,
             singleSelect: true,
+            highlight: false,
         });
     },
 };
