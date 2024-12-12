@@ -27,7 +27,7 @@
                         <el-tab-pane name="third">
                             <template #label>
                                 <span class="custom-tabs-label">
-                                    <span>M1</span>
+                                    <span>M4</span>
                                 </span>
                             </template>
                             <a style="font-size: 32px;
