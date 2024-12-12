@@ -2,31 +2,68 @@
     <div class="common-layout">
         <el-container>
             <el-header>
-                <div style="margin-bottom: 20px;"></div> <!-- 增加底部空白 -->
+
                 <div class="header-content">
-                    <el-button type="info" @click="goBack" class="back-button">Back</el-button>
-                    <span class="text-large font-600 mr-3 title">L2M2M2(查询重写模块)</span>
+                    <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
+                        <el-tab-pane name="first">
+                            <template #label>
+                                <span class="custom-tabs-label">
+                                    <span>L2</span>
+                                </span>
+                            </template>
+                            <a href="/" target="_self"
+                                style="text-decoration: none; color: #ffffff;">现在位于&nbsp;&nbsp;&nbsp;&nbsp;第 2 层</a>
+                        </el-tab-pane>
+                        <el-tab-pane name="second">
+                            <template #label>
+                                <span class="custom-tabs-label">
+                                    <span>M2</span>
+                                </span>
+                            </template>
+                            <a href="/l1m2" target="_self" style="text-decoration: none; color: #ffffff;">查询模块</a>
+                        </el-tab-pane>
+                        <el-tab-pane name="third">
+                            <template #label>
+                                <span class="custom-tabs-label">
+                                    <span>M3</span>
+                                </span>
+                            </template>
+                            查询重写模块
+                        </el-tab-pane>
+                    </el-tabs>
                 </div>
-                <div style="margin-top: 20px;"></div> <!-- 增加顶部空白 -->
             </el-header>
-            <el-main>
-                <div class="image-container">
-                    <img id="mapAll" ref="mapAll" :src="imageSrc" usemap="#image-map"
-                        style="width: 100%; height: 100%; object-fit: contain;" />
-                    <map name="image-map" id="image-map">
-                        <area v-for="hotspot in hotspots" :key="hotspot.id" :shape="hotspot.shape"
-                            :coords="hotspot.coords" :href="hotspot.href" @click.prevent="navigateTo(hotspot.href)"
-                            @mouseover="highlightHotspot(hotspot.id)" @mouseout="unhighlightHotspot(hotspot.id)" />
-                    </map>
+            <el-main style="padding: 20px;">
+                <div class="content-wrapper">
+                    <!-- 图像容器，左侧 -->
+                    <div class="image-container">
+                        <img id="mapAll" ref="mapAll" :src="imageSrc" usemap="#image-map" class="image" />
+                        <map name="image-map" id="image-map">
+                            <area v-for="hotspot in hotspots" :key="hotspot.id" :shape="hotspot.shape"
+                                :coords="hotspot.coords" :href="hotspot.href" @click.prevent="navigateTo(hotspot.href)"
+                                @mouseover="highlightHotspot(hotspot.id)" @mouseout="unhighlightHotspot(hotspot.id)" />
+                        </map>
+
+                        <!-- 步骤条和按钮放到同一个容器 -->
+                        <div class="steps-button-container">
+                            <el-steps :active="active" finish-status="success" align-center style="width: 100%;">
+                                <el-step title="Step 1" />
+                                <el-step title="Step 2" />
+                                <el-step title="Step 3" />
+                            </el-steps>
+
+                            <el-button class="next-button" style="margin-top: 20px;" @click="next">
+                                Next step
+                            </el-button>
+                        </div>
+                    </div>
+
+                    <!-- Markdown 内容容器，右侧 -->
+                    <div class="markdown-container">
+                        <div v-html="compiledMarkdown" class="markdown-body"></div>
+                    </div>
                 </div>
-                <div style="margin-top: 30px;"></div> <!-- 增加顶部空白 -->
-                <el-steps style="max-width: 600px" :active="active" finish-status="success" align-center>
-                    <el-step title="Step 1" />
-                    <el-step title="Step 2" />
-                    <el-step title="Step 3" />
-                </el-steps>
-                <el-button class="next-button" style="margin-top: 12px" @click="next">Next step</el-button>
-                <div v-html="compiledMarkdown" class="markdown-body"></div>
+
                 <!-- 圆角框，仅在 Step 1 完成时显示 -->
                 <div v-if="active >= 1" class="rounded-box">
                     <div class="box-content">
@@ -46,6 +83,7 @@ import MarkdownIt from 'markdown-it';
 export default {
     data() {
         return {
+            activeName: 'third',
             active: 0,
             imageSrc: '/pictures/level2/L2M2M2.png', // 替换为您的图片路径
             hotspots: [
@@ -63,8 +101,8 @@ export default {
                 },
                 // 更多热点区域...
             ],
-            markdownText: 
-`**总览**
+            markdownText:
+                `**总览**
 
 > 根据已定义的规则对查询树进行重写
 
@@ -116,6 +154,7 @@ export default {
             strokeWidth: 3,
             fillOpacity: 0.6,
             singleSelect: true,
+            highlight: false,
         });
     },
     computed: {
@@ -149,68 +188,178 @@ export default {
 <style scoped>
 .common-layout {
     height: 100%;
-    /* 使布局填满整个视口高度 */
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(135deg, #2a2a2a, #111111);
+    /* 渐变灰黑色背景 */
+    color: #f0f0f0;
+    /* 浅灰色文字 */
+    font-family: 'Roboto', sans-serif;
+}
+
+.content-wrapper {
+    display: flex;
+    justify-content: space-between;
+    /* 图片和文字左右分布 */
+    align-items: flex-start;
+    gap: 20px;
+    /* 图片和文字之间的间距 */
+    margin-top: 20px;
+    width: 100%;
 }
 
 .image-container {
+    width: 50%;
+    /* 图片部分占一半宽度 */
+    display: flex;
+    flex-direction: column;
+    /* 让图片和步骤排列成垂直布局 */
+    align-items: center;
+    /* 水平居中对齐 */
     position: relative;
-    width: 100%;
-    height: 100%;
-    /* 设置容器高度为视口高度 */
-    overflow: hidden;
-    /* 防止图片超出容器范围 */
 }
 
-img {
-    width: 100%;
-    /* 宽度始终填满容器 */
-    height: 100%;
-    /* 高度始终填满容器 */
+.image {
+    max-width: 100%;
+    max-height: 100vh;
+    /* 限制最大高度，避免过大 */
     object-fit: contain;
-    /* 保持图片比例，同时确保不会超出容器 */
+    border-radius: 12px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
+    /* 增加阴影效果 */
+}
+
+.steps-button-container {
+    width: 100%;
+    background: linear-gradient(135deg, #2d2d2d, #272727);
+    /* 渐变效果 */
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.next-button {
+    font-size: 22px;
+    padding: 15px 30px;
+    height: 60px;
+    width: 200px;
+    line-height: 60px;
+    border-radius: 5px;
+    background: linear-gradient(135deg, #4e5d6b, #3c444e);
+    /* 渐变按钮背景：深灰蓝色到深灰色 */
+    color: #f0f0f0;
+    /* 浅灰色文字，确保在暗黑背景下清晰可见 */
+    border: none;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    /* 增加按钮阴影，增强立体感 */
+    transition: all 0.3s ease;
+    /* 平滑过渡效果 */
+}
+
+.next-button:hover {
+    background: linear-gradient(135deg, #3c444e, #4e5d6b);
+    /* 鼠标悬停时按钮背景渐变反转 */
+    transform: scale(1.05);
+    /* 悬停时按钮略微放大 */
+}
+
+.markdown-container {
+    width: 50%;
+    /* 文字部分占一半宽度 */
+    max-height: 100vh;
+    /* 设置最大高度 */
+    overflow-y: auto;
+    /* 超出部分可滚动 */
+    padding: 20px;
+    border: 1px solid #444;
+    /* 边框颜色为深灰色 */
+    border-radius: 8px;
+    background-color: #333;
+    /* 深灰色背景 */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
+    /* 增加阴影效果 */
+}
+
+.markdown-container::-webkit-scrollbar {
+    width: 0;
+    /* 不显示滚动条 */
+    height: 0;
+}
+
+.rounded-box {
+    position: absolute;
+    top: 20%;
+    left: 30%;
+    width: 200px;
+    height: 100px;
+    background-color: rgba(255, 255, 255, 0.1);
+    /* 半透明背景 */
+    border: 2px solid #666;
+    /* 边框为浅灰色 */
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: pulse 1.5s infinite;
+    /* 动画效果：轻微脉动 */
+}
+
+.box-content p {
+    margin: 0;
+    font-size: 16px;
+    color: #e0e0e0;
+    /* 浅灰色文字 */
 }
 
 .header-content {
     display: flex;
     align-items: center;
-    /* 垂直居中对齐 */
     justify-content: flex-start;
-    gap: 10px;
-    /* 按钮与标题之间的间隔 */
 }
-
-.header-content .back-button {
-    line-height: 40px;
-    /* 调整按钮文字的垂直对齐 */
-    padding: 10px 25px;
-    /* 给按钮添加适当的内边距 */
-    font-size: 20px;
-    /* 设置按钮的字体大小，调大文字 */
-    /* 调整按钮的垂直对齐 */
-}
-
 
 .header-content .title {
     font-size: 40px;
-    /* 增大标题的字体大小 */
     font-weight: bold;
-    /* 设置标题为加粗 */
     line-height: 40px;
-    /* 调整标题的垂直对齐 */
+    color: #e0e0e0;
+    /* 标题文字颜色 */
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    /* 标题文字阴影效果 */
 }
 
-.next-button {
-    font-size: 22px;
-    /* 增大按钮文字的字体大小 */
-    padding: 15px 30px;
-    /* 增大按钮的内边距 */
-    height: 60px;
-    /* 设置按钮的高度 */
-    width: 200px;
-    /* 设置按钮的宽度 */
-    line-height: 60px;
-    /* 让文字垂直居中 */
-    border-radius: 5px;
-    /* 设置按钮的圆角 */
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.demo-tabs>>>.el-tabs__content {
+    color: #ffffff;
+    font-size: 32px;
+    font-weight: 600;
+}
+
+/* 更改 Tab 标签的字体样式 */
+.demo-tabs .custom-tabs-label span {
+    vertical-align: middle;
+    color: #ffffff;
+    font-size: 32px;
+    font-weight: 600;
 }
 </style>
