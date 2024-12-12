@@ -75,6 +75,12 @@
     /* 平滑过渡效果 */
 }
 
+.next-button:focus {
+    outline: none;
+    box-shadow: 0 0 8px rgba(80, 80, 80, 0.8); /* 更深的灰色阴影，透明度增加 */
+    /* 使用更深的灰色阴影，保持与整体设计协调 */
+}
+
 .next-button:hover {
     background: linear-gradient(135deg, #3c444e, #4e5d6b);
     /* 鼠标悬停时按钮背景渐变反转 */

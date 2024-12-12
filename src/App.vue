@@ -132,31 +132,6 @@ canvas {
   /* 悬浮时加下划线 */
 }
 
-/* 按钮样式 */
-button {
-  background-color: #4caf50;
-  /* 绿色按钮背景 */
-  color: #fff;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-button:hover {
-  background-color: #45a049;
-  /* 悬浮时按钮颜色变化 */
-  transform: scale(1.05);
-  /* 鼠标悬停时按钮放大 */
-}
-
-button:focus {
-  outline: none;
-  box-shadow: 0 0 5px #4caf50;
-  /* 聚焦时添加绿色阴影 */
-}
-
 /* 输入框样式 */
 input,
 textarea {
