@@ -100,14 +100,11 @@ export default {
           href: '/l2m2m4'
         },
       ],
-      markdownText: `**总览**
-
-不同的事务指令，不同事务类型有不同的操作。
-
-- 输入
-
-> 不同的指令执行时的调用
-            `,
+      markdownText: ` 说明信息：
+对于本模块，需要分别应对不同的事务指令，不同事务类型有不同的操作。
+事务块的主要状态之间的转换关系如下：
+![img](/pictures/level2/state.png)
+事务状态(TransState=transaction state from server perspective)是enum枚举数据类型，一共含有6个状态，包括\`TRANS_DEFAULT\`，\`TRANS_START\`，\`TRANS_INPROGRESS\`，\`TRANS_COMMIT\`，\`TRANS_ABORT\`和\`TRANS_PREPARE\`。`,
       md: new MarkdownIt({
         html: false,        // 禁用 HTML 解析
         xhtmlOut: false,    // 禁用 XHTML 输出

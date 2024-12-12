@@ -47,7 +47,8 @@
                                     <span>M1</span>
                                 </span>
                             </template>
-                            初步路径规划
+                            <a style="text-decoration: none; color: #ffffff;font-size: 32px;
+                            font-weight: 600;">初步路径规划 </a>
                         </el-tab-pane>
                     </el-tabs>
                 </div>

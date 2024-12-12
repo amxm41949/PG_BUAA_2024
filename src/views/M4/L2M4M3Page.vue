@@ -70,9 +70,10 @@ export default {
           href: '/l1m3'
         },
       ],
-      markdownText: `**总览**
+      markdownText: `接受各个模块的获取、释放锁请求。
 
-> 接受各个模块的获取、释放锁请求。
+以下是执行不同sql指令时对应锁模块需要调用的函数：
+![img](/pictures/level2/lock.png)
             `,
       md: new MarkdownIt({
         html: false,        // 禁用 HTML 解析

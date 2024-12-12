@@ -30,7 +30,7 @@ const routes = [
     { path: '/', component: DataFlowPage },
     { path: '/l1m1', component: L1M1Page },
     { path: '/l1m2', component: L1M2Page },
-    { path: '/l1m3', component: L1M3Page},
+    { path: '/l1m3', component: L1M3Page },
     { path: '/l1m4', component: L1M4Page },
     { path: '/l2m2m1', component: L2M2M1Page },
     { path: '/l2m2m2', component: L2M2M2Page },
