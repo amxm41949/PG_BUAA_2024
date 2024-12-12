@@ -92,6 +92,7 @@ export default {
 
 - 日志数据结构：
 
+\`\`\`C
     typedef struct XLogRecord
     {
         uint32      xl_tot_len;     /* 日志长度 */
@@ -102,7 +103,7 @@ export default {
         pg_crc32c   xl_crc;         /* CRC for this record */
         /* 跟随有 XLogRecordBlockHeaders 和 XLogRecordDataHeader */
     } XLogRecord;
-
+\`\`\`
       `,
       md: new MarkdownIt({
         html: false,        // 禁用 HTML 解析

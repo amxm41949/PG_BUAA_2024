@@ -71,8 +71,19 @@ export default {
         },
       ],
       markdownText:
-          `
-            `,
+          `说明信息：
+
+在遇到一条新的事物指令时，会开启一个新事务，进行事务模块与锁等的初始化。
+input：来自编译执行模块对于开启事务指令的调用。
+
+\`vxid\`为虚拟事务编号，用来进行事务的虚拟标识。
+\`\`\`C
+struct {
+    ProcNumber  procNumber;
+    LocalTransactionId lxid;
+} vxid;
+\`\`\`
+`,
       md: new MarkdownIt({
         html: false,        // 禁用 HTML 解析
         xhtmlOut: false,    // 禁用 XHTML 输出

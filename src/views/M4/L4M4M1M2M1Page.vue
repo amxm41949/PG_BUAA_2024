@@ -47,7 +47,7 @@ export default {
   data() {
     return {
       active: 0,
-      imageSrc: '/pictures/level4/L4M4M1M2M1.png', // 替换为您的图片路径
+      imageSrc: '/pictures/level4/L4M4M1M2M1.png',
       hotspots: [
         {
           id: '1',
@@ -71,34 +71,11 @@ export default {
         },
       ],
       markdownText:
-          `**总览**
+          `说明信息：
 
-> 完成操作请求在数据库中的分析处理和转化工作，最终实现物理存储介质中数据的操作。
+根据当前状态判断进行两阶段提交。
 
-**模块信息**
-
-- 查询分析模块
-
-    > 进行词法分析、语法分析和语义分析生成查询树，并且判断sql语句类型。
-
-- 查询重写模块
-
-    > 根据已定义的规则对查询树进行重写
-
-- 查询规划模块
-
-    > 根据查询树生成查询计划
-
-- 查询执行模块
-
-    > 按照查询计划的安排，调用存储、索引、并发等功能模块，按照各个计划节点的实现算法来执行数据的读取和修改。
-
-**数据流信息**
-
-- 存储指令
-
-    > 查询执行模块执行后向存储模块发出的指令
-            `,
+2PC相关的逻辑结构均建立在底层存储的基础上，会调用底层存储的相应方法。在共享内存中保存着\`TwoPhaseStateData\`结构体。\`TwoPhaseData\`结构体包含一个全局空闲事务链表头指针\`freeGXacts\`，已准备的事务数量（也即有效表项数）\`numPrepXacts\`和存储全局事务的数组\`prepXacts\`。其平铺示意图如右小图。而\`TwoPhaseData\`会写入\`TwoPhaseFile\`磁盘文件持久化，在操作过程中写入日志文件。`,
       md: new MarkdownIt({
         html: false,        // 禁用 HTML 解析
         xhtmlOut: false,    // 禁用 XHTML 输出
