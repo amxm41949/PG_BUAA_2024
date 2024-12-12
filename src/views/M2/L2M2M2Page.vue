@@ -27,7 +27,7 @@
                         <el-tab-pane name="third">
                             <template #label>
                                 <span class="custom-tabs-label">
-                                    <span>M3</span>
+                                    <span>M2</span>
                                 </span>
                             </template>
                             <a style="font-size: 32px;
@@ -81,7 +81,6 @@
 <script>
 import $ from 'jquery';
 import 'imagemapster';
-import MarkdownIt from 'markdown-it';
 
 export default {
     data() {
@@ -139,14 +138,6 @@ export default {
 
 - 设置命令结果标签：标识出哪个\`Query\`是重写后查询的最终结果，即字段\`canSetTag\`
             `,
-            md: new MarkdownIt({
-                html: false,        // 禁用 HTML 解析
-                xhtmlOut: false,    // 禁用 XHTML 输出
-                breaks: false,      // 不自动将换行符转换为 <br> 标签
-                linkify: true,      // 自动链接 URL
-                typographer: true,  // 启用排版功能（如引号、破折号等自动转换）
-                validate: true      // 启用严格模式
-            })
         };
     },
     mounted() {
@@ -163,7 +154,7 @@ export default {
     computed: {
         // 计算属性用于解析Markdown
         compiledMarkdown() {
-            return this.md.render(this.markdownText);
+            return this.$md.render(this.markdownText);
         }
     },
     methods: {
@@ -181,9 +172,6 @@ export default {
             const $map = $('#mapAll');
             $map.mapster('set', false, id); // 取消高亮显示
         },
-        goBack() {
-            this.$router.go(-1)
-        }
     },
 };
 </script>

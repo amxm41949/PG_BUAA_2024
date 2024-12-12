@@ -2,31 +2,79 @@
     <div class="common-layout">
         <el-container>
             <el-header>
-                <div style="margin-bottom: 20px;"></div> <!-- 增加底部空白 -->
+
                 <div class="header-content">
-                    <el-button type="info" @click="goBack" class="back-button">Back</el-button>
-                    <span class="text-large font-600 mr-3 title">L3M2M3M3(查询规划——计划生成)</span>
+                    <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
+                        <el-tab-pane name="first">
+                            <template #label>
+                                <span class="custom-tabs-label">
+                                    <span>L3</span>
+                                </span>
+                            </template>
+                            <a href="/" target="_self" style="text-decoration: none; color: #ffffff;font-size: 32px;
+                            font-weight: 600;">现在位于&nbsp;&nbsp;&nbsp;&nbsp;第 3 层</a>
+                        </el-tab-pane>
+                        <el-tab-pane name="second">
+                            <template #label>
+                                <span class="custom-tabs-label">
+                                    <span>M2</span>
+                                </span>
+                            </template>
+                            <a href="/l1m2" target="_self" style="text-decoration: none; color: #ffffff;font-size: 32px;
+                            font-weight: 600;">查询模块</a>
+                        </el-tab-pane>
+                        <el-tab-pane name="third">
+                            <template #label>
+                                <span class="custom-tabs-label">
+                                    <span>M3</span>
+                                </span>
+                            </template>
+                            <a href="/l2m2m3" target="_self" style="text-decoration: none; color: #ffffff;font-size: 32px;
+                            font-weight: 600;">查询规划模块</a>
+                        </el-tab-pane>
+                        <el-tab-pane name="fourth">
+                            <template #label>
+                                <span class="custom-tabs-label">
+                                    <span>M3</span>
+                                </span>
+                            </template>
+                            <a style="text-decoration: none; color: #ffffff;font-size: 32px;
+                            font-weight: 600;">计划生成模块</a>
+                        </el-tab-pane>
+                    </el-tabs>
                 </div>
-                <div style="margin-top: 20px;"></div> <!-- 增加顶部空白 -->
             </el-header>
-            <el-main>
-                <div class="image-container">
-                    <img id="mapAll" ref="mapAll" :src="imageSrc" usemap="#image-map"
-                        style="width: 100%; height: 100%; object-fit: contain;" />
-                    <map name="image-map" id="image-map">
-                        <area v-for="hotspot in hotspots" :key="hotspot.id" :shape="hotspot.shape"
-                            :coords="hotspot.coords" :href="hotspot.href" @click.prevent="navigateTo(hotspot.href)"
-                            @mouseover="highlightHotspot(hotspot.id)" @mouseout="unhighlightHotspot(hotspot.id)" />
-                    </map>
+            <el-main style="padding: 20px;">
+                <div class="content-wrapper">
+                    <!-- 图像容器，左侧 -->
+                    <div class="image-container">
+                        <img id="mapAll" ref="mapAll" :src="imageSrc" usemap="#image-map" class="image" />
+                        <map name="image-map" id="image-map">
+                            <area v-for="hotspot in hotspots" :key="hotspot.id" :shape="hotspot.shape"
+                                :coords="hotspot.coords" :href="hotspot.href" @click.prevent="navigateTo(hotspot.href)"
+                                @mouseover="highlightHotspot(hotspot.id)" @mouseout="unhighlightHotspot(hotspot.id)" />
+                        </map>
+
+                        <!-- 步骤条和按钮放到同一个容器 -->
+                        <div class="steps-button-container">
+                            <el-steps :active="active" finish-status="success" align-center style="width: 100%;">
+                                <el-step title="Step 1" />
+                                <el-step title="Step 2" />
+                                <el-step title="Step 3" />
+                            </el-steps>
+
+                            <el-button class="next-button" style="margin-top: 20px;" @click="next">
+                                Next step
+                            </el-button>
+                        </div>
+                    </div>
+
+                    <!-- Markdown 内容容器，右侧 -->
+                    <div class="markdown-container">
+                        <div v-html="compiledMarkdown" class="markdown-body"></div>
+                    </div>
                 </div>
-                <div style="margin-top: 30px;"></div> <!-- 增加顶部空白 -->
-                <el-steps style="max-width: 600px" :active="active" finish-status="success" align-center>
-                    <el-step title="Step 1" />
-                    <el-step title="Step 2" />
-                    <el-step title="Step 3" />
-                </el-steps>
-                <el-button class="next-button" style="margin-top: 12px" @click="next">Next step</el-button>
-                <div v-html="compiledMarkdown" class="markdown-body"></div>
+
                 <!-- 圆角框，仅在 Step 1 完成时显示 -->
                 <div v-if="active >= 1" class="rounded-box">
                     <div class="box-content">
@@ -41,11 +89,11 @@
 <script>
 import $ from 'jquery';
 import 'imagemapster';
-import MarkdownIt from 'markdown-it';
 
 export default {
     data() {
         return {
+            activeName: 'fourth',
             active: 0,
             imageSrc: '/pictures/level3/L3M2M3M3.png', // 替换为您的图片路径
             hotspots: [
@@ -85,20 +133,12 @@ export default {
   - 包含了查询的结果关系、子查询计划、游标处理信息等
 
             `,
-            md: new MarkdownIt({
-                html: false,        // 禁用 HTML 解析
-                xhtmlOut: false,    // 禁用 XHTML 输出
-                breaks: false,      // 不自动将换行符转换为 <br> 标签
-                linkify: true,      // 自动链接 URL
-                typographer: true,  // 启用排版功能（如引号、破折号等自动转换）
-                validate: true      // 启用严格模式
-            })
         };
     },
     computed: {
         // 计算属性用于解析Markdown
         compiledMarkdown() {
-            return this.md.render(this.markdownText);
+            return this.$md.render(this.markdownText);
         }
     },
     methods: {
@@ -127,6 +167,7 @@ export default {
             strokeWidth: 3,
             fillOpacity: 0.6,
             singleSelect: true,
+            highlight: false,
         });
     }
 };

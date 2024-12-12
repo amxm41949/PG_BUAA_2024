@@ -80,7 +80,6 @@
 <script>
 import $ from 'jquery';
 import 'imagemapster';
-// import MarkdownIt from 'markdown-it';
 
 export default {
     data() {
