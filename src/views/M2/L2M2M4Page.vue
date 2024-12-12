@@ -41,7 +41,6 @@
 <script>
 import $ from 'jquery';
 import 'imagemapster';
-import MarkdownIt from 'markdown-it';
 
 export default {
     data() {
@@ -304,14 +303,6 @@ ExecInitNode(Plan *node, EState *estate, int eflags)
 
 执行器清理：当执行器处理完所有可获得的元组后，有ExecutorEnd函数进行善后。该函数的运行逻辑与ExecInitNode本质上一样，针对不同类型节点调用不同的清理函数，并从根节点开始递归清理。
             `,
-            md: new MarkdownIt({
-                html: false,        // 禁用 HTML 解析
-                xhtmlOut: false,    // 禁用 XHTML 输出
-                breaks: false,      // 不自动将换行符转换为 <br> 标签
-                linkify: true,      // 自动链接 URL
-                typographer: true,  // 启用排版功能（如引号、破折号等自动转换）
-                validate: true      // 启用严格模式
-            })
         };
     },
     mounted() {
@@ -322,12 +313,13 @@ ExecInitNode(Plan *node, EState *estate, int eflags)
             strokeWidth: 3,
             fillOpacity: 0.6,
             singleSelect: true,
+            highlight: false,
         });
     },
     computed: {
         // 计算属性用于解析Markdown
         compiledMarkdown() {
-            return this.md.render(this.markdownText);
+            return this.$md.render(this.markdownText);
         }
     },
     methods: {
@@ -351,72 +343,3 @@ ExecInitNode(Plan *node, EState *estate, int eflags)
     },
 };
 </script>
-
-<style scoped>
-.common-layout {
-    height: 100%;
-    /* 使布局填满整个视口高度 */
-}
-
-.image-container {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    /* 设置容器高度为视口高度 */
-    overflow: hidden;
-    /* 防止图片超出容器范围 */
-}
-
-img {
-    width: 100%;
-    /* 宽度始终填满容器 */
-    height: 100%;
-    /* 高度始终填满容器 */
-    object-fit: contain;
-    /* 保持图片比例，同时确保不会超出容器 */
-}
-
-.header-content {
-    display: flex;
-    align-items: center;
-    /* 垂直居中对齐 */
-    justify-content: flex-start;
-    gap: 10px;
-    /* 按钮与标题之间的间隔 */
-}
-
-.header-content .back-button {
-    line-height: 40px;
-    /* 调整按钮文字的垂直对齐 */
-    padding: 10px 25px;
-    /* 给按钮添加适当的内边距 */
-    font-size: 20px;
-    /* 设置按钮的字体大小，调大文字 */
-    /* 调整按钮的垂直对齐 */
-}
-
-
-.header-content .title {
-    font-size: 40px;
-    /* 增大标题的字体大小 */
-    font-weight: bold;
-    /* 设置标题为加粗 */
-    line-height: 40px;
-    /* 调整标题的垂直对齐 */
-}
-
-.next-button {
-    font-size: 22px;
-    /* 增大按钮文字的字体大小 */
-    padding: 15px 30px;
-    /* 增大按钮的内边距 */
-    height: 60px;
-    /* 设置按钮的高度 */
-    width: 200px;
-    /* 设置按钮的宽度 */
-    line-height: 60px;
-    /* 让文字垂直居中 */
-    border-radius: 5px;
-    /* 设置按钮的圆角 */
-}
-</style>

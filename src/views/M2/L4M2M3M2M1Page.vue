@@ -97,7 +97,6 @@
 <script>
 import $ from 'jquery';
 import 'imagemapster';
-import MarkdownIt from 'markdown-it';
 
 
 export default {
@@ -131,18 +130,18 @@ export default {
 1. 动态规划
    ![img](/pictures/level4/dp.png)
 
-   2.  此动态规划逐层建立连接路径
+   1.  此动态规划逐层建立连接路径
 
-   3. Level表示已经连接的表数
-   4. Bushy Plan会构建起更多样的连接顺序
-   5. 分区表：有些表因为大小等原因切割后存储，成为分区表，故而此处要进行针对其的优化
-   6. 并行优化指通过gather操作等进行性能优化
+   2. Level表示已经连接的表数
+   3. Bushy Plan会构建起更多样的连接顺序
+   4. 分区表：有些表因为大小等原因切割后存储，成为分区表，故而此处要进行针对其的优化
+   5. 并行优化指通过gather操作等进行性能优化
 2. 遗传算法
-   1. ![img](/pictures/level4/hp.png)
+   ![img](/pictures/level4/hp.png)
 
-   2.  在此遗传算法中
+   在此遗传算法中
 
-   3. 基本概念介绍
+   1. 基本概念介绍
       - 基因Gene：一个基因代表一个基础关系，用整数表示
       - 染色体Chromosome：
       - \`\`\`C
@@ -161,7 +160,7 @@ export default {
             int string_length;    // 基因（基础关系）数量 
         } Pool;
         \`\`\`
-   4. 关键步骤解析
+   2. 关键步骤解析
       - 初始化：使用\`gimme_pool_size()\` 和 \`gimme_number_generations()\` 计算种群的大小和代数
       - 交叉：通过指定的算子生成子代的染色体（查询顺序），例如momma [1,2,3,4] , daddy [2,4,1,3] 生成 [1, 2, 4, 3]
       - 变异：如随机交换基因顺序
@@ -170,21 +169,12 @@ export default {
       - 停止条件： 达到初始化时计算的代数
       - 注：交叉与变异均因算子而异
             `,
-            // Markdown解析器实例
-            md: new MarkdownIt({
-                html: false,        // 禁用 HTML 解析
-                xhtmlOut: false,    // 禁用 XHTML 输出
-                breaks: false,      // 不自动将换行符转换为 <br> 标签
-                linkify: true,      // 自动链接 URL
-                typographer: true,  // 启用排版功能（如引号、破折号等自动转换）
-                validate: true      // 启用严格模式
-            })
         };
     },
     computed: {
         // 计算属性用于解析Markdown
         compiledMarkdown() {
-            return this.md.render(this.markdownText);
+            return this.$md.render(this.markdownText);
         }
     },
     methods: {

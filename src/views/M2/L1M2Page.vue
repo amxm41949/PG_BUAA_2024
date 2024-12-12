@@ -41,7 +41,6 @@
 <script>
 import $ from 'jquery';
 import 'imagemapster';
-import MarkdownIt from 'markdown-it';
 
 export default {
     data() {
@@ -115,14 +114,6 @@ export default {
     
     > 查询执行模块执行后向存储模块发出的指令
             `,
-            md: new MarkdownIt({
-                html: false,        // 禁用 HTML 解析
-                xhtmlOut: false,    // 禁用 XHTML 输出
-                breaks: false,      // 不自动将换行符转换为 <br> 标签
-                linkify: true,      // 自动链接 URL
-                typographer: true,  // 启用排版功能（如引号、破折号等自动转换）
-                validate: true      // 启用严格模式
-            })
         };
     },
     mounted() {
@@ -138,7 +129,7 @@ export default {
     computed: {
         // 计算属性用于解析Markdown
         compiledMarkdown() {
-            return this.md.render(this.markdownText);
+            return this.$md.render(this.markdownText);
         }
     },
     methods: {
