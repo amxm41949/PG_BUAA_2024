@@ -1,7 +1,7 @@
 <template>
     <div class="common-layout">
         <el-container box-sizing: border-box>
-            <el-header style="height: auto;">
+            <el-header>
                 <div class="header-content">
                     <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
                         <el-tab-pane name="first">
