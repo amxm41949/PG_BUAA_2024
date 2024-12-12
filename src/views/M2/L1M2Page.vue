@@ -2,31 +2,62 @@
     <div class="common-layout">
         <el-container>
             <el-header>
-                <div style="margin-bottom: 20px;"></div> <!-- 增加底部空白 -->
+
                 <div class="header-content">
-                    <el-button type="info" @click="goBack" class="back-button">Back</el-button>
-                    <span class="text-large font-600 mr-3 title">L1M2(查询模块)</span>
+                    <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
+                        <el-tab-pane name="first">
+                            <template #label>
+                                <span class="custom-tabs-label">
+                                    <span>L1</span>
+                                </span>
+                            </template>
+                            <a href="/" target="_self" style="text-decoration: none; color: #ffffff;
+                            font-size: 32px; font-weight: 600;">
+                                现在位于&nbsp;&nbsp;&nbsp;&nbsp;第 1 层</a>
+                        </el-tab-pane>
+                        <el-tab-pane name="second">
+                            <template #label>
+                                <span class="custom-tabs-label">
+                                    <span>M2</span>
+                                </span>
+                            </template>
+                            <a style="text-decoration: none; color: #ffffff;font-size: 32px;
+                            font-weight: 600;">查询模块</a>
+                        </el-tab-pane>
+                    </el-tabs>
                 </div>
-                <div style="margin-top: 20px;"></div> <!-- 增加顶部空白 -->
             </el-header>
-            <el-main>
-                <div class="image-container">
-                    <img id="mapAll" ref="mapAll" :src="imageSrc" usemap="#image-map"
-                        style="width: 100%; height: 100%; object-fit: contain;" />
-                    <map name="image-map" id="image-map">
-                        <area v-for="hotspot in hotspots" :key="hotspot.id" :shape="hotspot.shape"
-                            :coords="hotspot.coords" :href="hotspot.href" @click.prevent="navigateTo(hotspot.href)"
-                            @mouseover="highlightHotspot(hotspot.id)" @mouseout="unhighlightHotspot(hotspot.id)" />
-                    </map>
+            <el-main style="padding: 20px;">
+                <div class="content-wrapper">
+                    <!-- 图像容器，左侧 -->
+                    <div class="image-container">
+                        <img id="mapAll" ref="mapAll" :src="imageSrc" usemap="#image-map" class="image" />
+                        <map name="image-map" id="image-map">
+                            <area v-for="hotspot in hotspots" :key="hotspot.id" :shape="hotspot.shape"
+                                :coords="hotspot.coords" :href="hotspot.href" @click.prevent="navigateTo(hotspot.href)"
+                                @mouseover="highlightHotspot(hotspot.id)" @mouseout="unhighlightHotspot(hotspot.id)" />
+                        </map>
+
+                        <!-- 步骤条和按钮放到同一个容器 -->
+                        <div class="steps-button-container">
+                            <el-steps :active="active" finish-status="success" align-center style="width: 100%;">
+                                <el-step title="Step 1" />
+                                <el-step title="Step 2" />
+                                <el-step title="Step 3" />
+                            </el-steps>
+
+                            <el-button class="next-button" style="margin-top: 20px;" @click="next">
+                                Next step
+                            </el-button>
+                        </div>
+                    </div>
+
+                    <!-- Markdown 内容容器，右侧 -->
+                    <div class="markdown-container">
+                        <div v-html="compiledMarkdown" class="markdown-body"></div>
+                    </div>
                 </div>
-                <div style="margin-top: 30px;"></div> <!-- 增加顶部空白 -->
-                <el-steps style="max-width: 600px" :active="active" finish-status="success" align-center>
-                    <el-step title="Step 1" />
-                    <el-step title="Step 2" />
-                    <el-step title="Step 3" />
-                </el-steps>
-                <el-button class="next-button" style="margin-top: 12px" @click="next">Next step</el-button>
-                <div v-html="compiledMarkdown" class="markdown-body"></div>
+
                 <!-- 圆角框，仅在 Step 1 完成时显示 -->
                 <div v-if="active >= 1" class="rounded-box">
                     <div class="box-content">
@@ -45,6 +76,7 @@ import 'imagemapster';
 export default {
     data() {
         return {
+            activeName: 'second',
             active: 0,
             imageSrc: '/pictures/level1/L1M2.png', // 替换为您的图片路径
             hotspots: [
@@ -83,6 +115,12 @@ export default {
                     coords: '0,796,1,874,3,883,6,884,9,888,15,890,193,890,199,889,205,886,208,878,210,876,211,799,209,793,205,787,200,786,15,783,7,789,3,788',
                     href: '/l1m3'
                 },//存储模块
+                {
+                    id: '6',
+                    shape: 'poly',
+                    coords: '367,105,555,105,561,102,565,97,567,90,567,14,564,7,556,2,552,1,367,1,362,4,359,11,355,13,355,92,358,99,363,103',
+                    href: '/l1m1'
+                },//连接模块
                 // 更多热点区域...
             ],
             markdownText:
@@ -124,6 +162,7 @@ export default {
             strokeWidth: 3,
             fillOpacity: 0.6,
             singleSelect: true,
+            highlight: false,
         });
     },
     computed: {
@@ -153,72 +192,3 @@ export default {
     },
 };
 </script>
-
-<style scoped>
-.common-layout {
-    height: 100%;
-    /* 使布局填满整个视口高度 */
-}
-
-.image-container {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    /* 设置容器高度为视口高度 */
-    overflow: hidden;
-    /* 防止图片超出容器范围 */
-}
-
-img {
-    width: 100%;
-    /* 宽度始终填满容器 */
-    height: 100%;
-    /* 高度始终填满容器 */
-    object-fit: contain;
-    /* 保持图片比例，同时确保不会超出容器 */
-}
-
-.header-content {
-    display: flex;
-    align-items: center;
-    /* 垂直居中对齐 */
-    justify-content: flex-start;
-    gap: 10px;
-    /* 按钮与标题之间的间隔 */
-}
-
-.header-content .back-button {
-    line-height: 40px;
-    /* 调整按钮文字的垂直对齐 */
-    padding: 10px 25px;
-    /* 给按钮添加适当的内边距 */
-    font-size: 20px;
-    /* 设置按钮的字体大小，调大文字 */
-    /* 调整按钮的垂直对齐 */
-}
-
-
-.header-content .title {
-    font-size: 40px;
-    /* 增大标题的字体大小 */
-    font-weight: bold;
-    /* 设置标题为加粗 */
-    line-height: 40px;
-    /* 调整标题的垂直对齐 */
-}
-
-.next-button {
-    font-size: 22px;
-    /* 增大按钮文字的字体大小 */
-    padding: 15px 30px;
-    /* 增大按钮的内边距 */
-    height: 60px;
-    /* 设置按钮的高度 */
-    width: 200px;
-    /* 设置按钮的宽度 */
-    line-height: 60px;
-    /* 让文字垂直居中 */
-    border-radius: 5px;
-    /* 设置按钮的圆角 */
-}
-</style>
