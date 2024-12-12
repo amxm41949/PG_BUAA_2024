@@ -20,7 +20,6 @@
     /* 图片和文字之间的间距 */
     margin-top: 20px;
     box-sizing: border-box;
-    max-width: 1000px;
 }
 
 .image-container {
