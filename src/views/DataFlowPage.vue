@@ -170,6 +170,7 @@ export default {
             strokeWidth: 3,
             fillOpacity: 0.6,
             singleSelect: true,
+            highlight: false,
         });
     },
 };

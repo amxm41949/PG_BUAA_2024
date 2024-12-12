@@ -61,8 +61,8 @@ export default {
                 },//连接管理模块
                 // 更多热点区域...
             ],
-            markdownText: 
-`**总览**
+            markdownText:
+                `**总览**
 
 > 进行词法分析、语法分析和语义分析生成查询树，并且判断sql语句类型。
 

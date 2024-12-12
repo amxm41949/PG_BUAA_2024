@@ -4,6 +4,7 @@ import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css';
 import router from './router';
 import md from './components/markdown.js';
+import './views/PageStyle.css';
 
 const app = createApp(App);
 
