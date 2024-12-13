@@ -1,8 +1,7 @@
 <template>
     <div class="common-layout">
-        <el-container>
+        <el-container box-sizing: border-box>
             <el-header>
-
                 <div class="header-content">
                     <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
                         <el-tab-pane name="first">
@@ -12,7 +11,7 @@
                                 </span>
                             </template>
                             <a href="/" target="_self" style="text-decoration: none; color: #ffffff;font-size: 32px;
-                            font-weight: 600;">现在位于&nbsp;&nbsp;&nbsp;&nbsp;第 4 层</a>
+                            font-weight: 600;">回到顶层</a>
                         </el-tab-pane>
                         <el-tab-pane name="second">
                             <template #label>

@@ -13,7 +13,7 @@
                             </template>
                             <a href="/" target="_self" style="text-decoration: none; color: #ffffff;
                             font-size: 32px; font-weight: 600;">
-                                现在位于&nbsp;&nbsp;&nbsp;&nbsp;第 2 层</a>
+                                回到顶层</a>
                         </el-tab-pane>
                         <el-tab-pane name="second">
                             <template #label>

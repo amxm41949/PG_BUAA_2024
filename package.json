@@ -19,6 +19,7 @@
     "markdown-it-highlightjs": "^4.2.0",
     "markdown-it-vue": "^1.1.7",
     "vue": "3.2.13",
+    "vue-cli-service": "^5.0.10",
     "vue-router": "^4.5.0"
   },
   "devDependencies": {

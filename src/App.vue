@@ -43,6 +43,7 @@ body {
   color: #e0e0e0;
   /* 浅灰文字 */
   padding: 15px;
+  box-sizing: border-box;
 }
 
 /* 图片或canvas居中样式 */
@@ -57,8 +58,6 @@ canvas {
 .markdown-body {
   box-sizing: border-box;
   width: 100%;
-  max-width: 800px;
-  /* 限制宽度，避免太宽 */
   margin: 0 auto;
   padding: 30px;
   color: #f1f1f1;
@@ -130,31 +129,6 @@ canvas {
   /* 悬浮时变为浅绿色 */
   text-decoration: underline;
   /* 悬浮时加下划线 */
-}
-
-/* 按钮样式 */
-button {
-  background-color: #4caf50;
-  /* 绿色按钮背景 */
-  color: #fff;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-button:hover {
-  background-color: #45a049;
-  /* 悬浮时按钮颜色变化 */
-  transform: scale(1.05);
-  /* 鼠标悬停时按钮放大 */
-}
-
-button:focus {
-  outline: none;
-  box-shadow: 0 0 5px #4caf50;
-  /* 聚焦时添加绿色阴影 */
 }
 
 /* 输入框样式 */
