@@ -9,7 +9,15 @@ import L2M2M1Page from '@/views/M2/L2M2M1Page.vue';
 import L2M2M2Page from '@/views/M2/L2M2M2Page.vue';
 import L2M2M3Page from '@/views/M2/L2M2M3Page.vue';
 import L2M2M4Page from '@/views/M2/L2M2M4Page.vue';
+
 import L2M3M1Page from '@/views/M3/L2M3M1Page.vue';
+import L2M3M2Page from '@/views/M3/L2M3M2Page.vue';
+import L2M3M2M1Page from '@/views/M3/L2M3M2M1Page.vue';
+import L2M3M3Page from '@/views/M3/L2M3M3Page.vue';
+import L2M3M3M1Page from '@/views/M3/L2M3M3M1Page.vue';
+import L2M3M3M2Page from '@/views/M3/L2M3M3M2Page.vue';
+import L2M3M3M4Page from '@/views/M3/L2M3M3M4Page.vue';
+
 import L2M4M1Page from "@/views/M4/L2M4M1Page.vue";
 import L2M4M2Page from "@/views/M4/L2M4M2Page.vue";
 import L2M4M3Page from "@/views/M4/L2M4M3Page.vue";
@@ -25,7 +33,6 @@ import L3M4M2M1Page from "@/views/M4/L3M4M2M1Page.vue";
 import L4M2M3M2M1Page from '@/views/M2/L4M2M3M2M1Page.vue';
 import L4M4M1M2M1Page from "@/views/M4/L4M4M1M2M1Page.vue";
 
-
 const routes = [
     { path: '/', component: DataFlowPage },
     { path: '/l1m1', component: L1M1Page },
@@ -36,7 +43,15 @@ const routes = [
     { path: '/l2m2m2', component: L2M2M2Page },
     { path: '/l2m2m3', component: L2M2M3Page },
     { path: '/l2m2m4', component: L2M2M4Page },
+
     { path: '/l2m3m1', component: L2M3M1Page },
+    { path: '/l2m3m2', component: L2M3M2Page },
+    { path: '/l2m3m2m1', component: L2M3M2M1Page },
+    { path: '/l2m3m3', component: L2M3M3Page },
+    { path: '/l2m3m3m1', component: L2M3M3M1Page },
+    { path: '/l2m3m3m2', component: L2M3M3M2Page },
+    { path: '/l2m3m3m4', component: L2M3M3M4Page },
+    
     { path: '/l2m4m1', component: L2M4M1Page },
     { path: '/l2m4m2', component: L2M4M2Page },
     { path: '/l2m4m3', component: L2M4M3Page },

@@ -1,6 +1,6 @@
 import MarkdownIt from 'markdown-it';
 import hljs from 'highlight.js';
-import 'highlight.js/styles/monokai.css';
+import 'highlight.js/styles/night-owl.css';
 
 const md = new MarkdownIt({
     html: true,
