@@ -18,11 +18,11 @@
                         <el-tab-pane name="second">
                             <template #label>
                                 <span class="custom-tabs-label">
-                                    <span>M2</span>
+                                    <span>M1</span>
                                 </span>
                             </template>
                             <a style="text-decoration: none; color: #ffffff;font-size: 32px;
-                            font-weight: 600;">查询模块</a>
+                            font-weight: 600;">连接模块</a>
                         </el-tab-pane>
                     </el-tabs>
                 </div>
