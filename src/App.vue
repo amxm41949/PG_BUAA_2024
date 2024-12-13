@@ -131,6 +131,45 @@ canvas {
   /* 悬浮时加下划线 */
 }
 
+.markdown-body pre {
+  background-color: #2d2d2d;   /* 深色背景 */
+  color: #f8f8f2;              /* 浅色文字 */
+  padding: 15px;               /* 内边距 */
+  border-radius: 8px;          /* 圆角边框 */
+  overflow-x: auto;            /* 滚动条支持 */
+  font-size: 14px;             /* 合适的字体大小 */
+  line-height: 1.6;            /* 提升可读性 */
+  margin: 20px 0;              /* 外边距 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);  /* 阴影效果 */
+}
+
+/* 鼠标悬停样式 */
+.markdown-body pre:hover {
+  background-color: #3d3d3d;  /* 更深背景色 */
+}
+
+.markdown-body pre::-webkit-scrollbar {
+  height: 8px;                 /* 滚动条高度 */
+}
+
+.markdown-body pre::-webkit-scrollbar-track {
+  background: #1e1e1e;         /* 滚动条轨道背景（暗色） */
+  border-radius: 8px;          /* 圆角轨道 */
+}
+
+.markdown-body pre::-webkit-scrollbar-thumb {
+  background: #555;            /* 滚动条滑块背景（灰色） */
+  border-radius: 8px;          /* 圆角滑块 */
+}
+
+.markdown-body pre::-webkit-scrollbar-thumb:hover {
+  background: #888;            /* 悬停时变浅 */
+}
+
+.markdown-body pre::-webkit-scrollbar-corner {
+  background: #1e1e1e;         /* 角部背景（暗色） */
+}
+
 /* 输入框样式 */
 input,
 textarea {
