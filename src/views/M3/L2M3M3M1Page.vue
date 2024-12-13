@@ -13,7 +13,7 @@
                             </template>
                             <a href="/" target="_self" style="text-decoration: none; color: #ffffff;
                             font-size: 32px; font-weight: 600;">
-                                现在位于&nbsp;&nbsp;&nbsp;&nbsp;第 2 层</a>
+                                现在位于&nbsp;&nbsp;&nbsp;&nbsp;第 3 层</a>
                         </el-tab-pane>
                         <el-tab-pane name="second">
                             <template #label>
@@ -32,6 +32,15 @@
                             </template>
                             <a style="text-decoration: none; color: #ffffff;font-size: 32px;
                             font-weight: 600;">外存模块</a>
+                        </el-tab-pane>
+                        <el-tab-pane name="fourth">
+                            <template #label>
+                                <span class="custom-tabs-label">
+                                    <span>M1</span>
+                                </span>
+                            </template>
+                            <a style="text-decoration: none; color: #ffffff;font-size: 32px;
+                            font-weight: 600;">表文件管理</a>
                         </el-tab-pane>
                     </el-tabs>
                 </div>
@@ -85,76 +94,17 @@ import 'imagemapster';
 export default {
     data() {
         return {
-            activeName: 'third',
             active: 0,
-            imageSrc: '/pictures/level2/L2M3M3.png', // 替换为您的图片路径
-            hotspots: [
-                {
-                    id: '1',
-                    shape: 'rect',
-                    coords: '115,240,215,304',
-                    href: '/l2m3m3m1'
-                },
-                {
-                    id: '2',
-                    shape: 'rect',
-                    coords: '274,244,372,302',
-                    href: '/l2m3m3m1'
-                },
-                {
-                    id: '3',
-                    shape: 'rect',
-                    coords: '429,245,529,302',
-                    href: '/l2m3m3m1'
-                },
-                {
-                    id: '4',
-                    shape: 'rect',
-                    coords: '586,244,686,304',
-                    href: '/l2m3m3m1'
-                },
-                {
-                    id: '5',
-                    shape: 'rect',
-                    coords: '768,191,862,254',
-                    href: '/l2m3m3m2'
-                },
-                {
-                    id: '6',
-                    shape: 'rect',
-                    coords: '271,472,545,535',
-                    href: '/l2m3m3m4'
-                },
-            ],
+            imageSrc: '/pictures/level3/L2M3M3M1.png', // 替换为您的图片路径
 
             markdownText:
-                `**总览**
-                
-> 完成操作请求在数据库中的分析处理和转化工作，最终实现物理存储介质中数据的操作。
+                `**表文件管理总览**
 
-**模块信息**
+                -从流程图以及函数中可以看出，其实PG并没有很底层地直接操作磁盘介质，
+                而是最终都通过调用 WINAPI 操作系统接口的方式实现操作
 
-- 查询分析模块
-    
-    > 进行词法分析、语法分析和语义分析生成查询树，并且判断sql语句类型。 
 
-- 查询重写模块
-    
-    > 根据已定义的规则对查询树进行重写
 
-- 查询规划模块
-    
-    > 根据查询树生成查询计划
-
-- 查询执行模块
-    
-    > 按照查询计划的安排，调用存储、索引、并发等功能模块，按照各个计划节点的实现算法来执行数据的读取和修改。
-
-**数据流信息**
-
-- 存储指令
-    
-    > 查询执行模块执行后向存储模块发出的指令
             `,
         };
     },

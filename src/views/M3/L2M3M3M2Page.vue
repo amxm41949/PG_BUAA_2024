@@ -13,7 +13,7 @@
                             </template>
                             <a href="/" target="_self" style="text-decoration: none; color: #ffffff;
                             font-size: 32px; font-weight: 600;">
-                                现在位于&nbsp;&nbsp;&nbsp;&nbsp;第 2 层</a>
+                                现在位于&nbsp;&nbsp;&nbsp;&nbsp;第 3 层</a>
                         </el-tab-pane>
                         <el-tab-pane name="second">
                             <template #label>
@@ -32,6 +32,15 @@
                             </template>
                             <a style="text-decoration: none; color: #ffffff;font-size: 32px;
                             font-weight: 600;">外存模块</a>
+                        </el-tab-pane>
+                        <el-tab-pane name="fourth">
+                            <template #label>
+                                <span class="custom-tabs-label">
+                                    <span>M2</span>
+                                </span>
+                            </template>
+                            <a style="text-decoration: none; color: #ffffff;font-size: 32px;
+                            font-weight: 600;">Vaccum</a>
                         </el-tab-pane>
                     </el-tabs>
                 </div>
@@ -85,76 +94,18 @@ import 'imagemapster';
 export default {
     data() {
         return {
-            activeName: 'third',
             active: 0,
-            imageSrc: '/pictures/level2/L2M3M3.png', // 替换为您的图片路径
-            hotspots: [
-                {
-                    id: '1',
-                    shape: 'rect',
-                    coords: '115,240,215,304',
-                    href: '/l2m3m3m1'
-                },
-                {
-                    id: '2',
-                    shape: 'rect',
-                    coords: '274,244,372,302',
-                    href: '/l2m3m3m1'
-                },
-                {
-                    id: '3',
-                    shape: 'rect',
-                    coords: '429,245,529,302',
-                    href: '/l2m3m3m1'
-                },
-                {
-                    id: '4',
-                    shape: 'rect',
-                    coords: '586,244,686,304',
-                    href: '/l2m3m3m1'
-                },
-                {
-                    id: '5',
-                    shape: 'rect',
-                    coords: '768,191,862,254',
-                    href: '/l2m3m3m2'
-                },
-                {
-                    id: '6',
-                    shape: 'rect',
-                    coords: '271,472,545,535',
-                    href: '/l2m3m3m4'
-                },
-            ],
+            imageSrc: '/pictures/level3/L2M3M3M2.png', // 替换为您的图片路径
 
             markdownText:
                 `**总览**
-                
-> 完成操作请求在数据库中的分析处理和转化工作，最终实现物理存储介质中数据的操作。
 
-**模块信息**
-
-- 查询分析模块
-    
-    > 进行词法分析、语法分析和语义分析生成查询树，并且判断sql语句类型。 
-
-- 查询重写模块
-    
-    > 根据已定义的规则对查询树进行重写
-
-- 查询规划模块
-    
-    > 根据查询树生成查询计划
-
-- 查询执行模块
-    
-    > 按照查询计划的安排，调用存储、索引、并发等功能模块，按照各个计划节点的实现算法来执行数据的读取和修改。
-
-**数据流信息**
-
-- 存储指令
-    
-    > 查询执行模块执行后向存储模块发出的指令
+- L1/索引管理：这里是上一层模块，向下一层传入查询或修改等请求
+- cache：cache中存储了诸如系统表元组、表模式信息等查询结果，可以用于加速检索速度
+- 共享内存部分：共享内存具体包含这些内容，为各个进程共同使用，负责协调各个进程
+- 缓冲池：缓冲池是共享内存的一部分，包括共享缓冲池和进程私有的缓冲池两种
+- SMGR：SMGR（存储管理器）介于内存和外存之间，负责管理内外存并作为两者之间的接口进行数据交换等
+- 外存：外存部分包含多种外存，但是PostGre中仅实现了磁盘式的外存
             `,
         };
     },
